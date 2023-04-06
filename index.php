@@ -16,14 +16,21 @@
     </nav>
     <div class="side-bar">
         <ul>
-            <li><a href="">Dashboard</a></li>
-            <li><a href="">Books</a></li>
-            <li><a href="">Authors</a></li>
-            <li><a href="">Categories</a></li>
+            <li><a href="index.php?page=dashboard">Dashboard</a></li>
+            <li><a href="index.php?page=books">Books</a></li>
+            <li><a href="index.php?page=authors">Authors</a></li>
+            <li><a href="index.php?page=categories">Categories</a></li>
         </ul>
     </div>
     <div class="content">
         <!-- here goes the dynamic content -->
+        <?php
+        if (isset($_GET["page"])) {
+            if ($_GET["page"] == "books") {
+                require_once "books.php";
+            }
+        }
+        ?>
     </div>
 </body>
 </html>
