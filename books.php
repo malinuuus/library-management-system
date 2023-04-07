@@ -11,7 +11,7 @@
         <th>No of copies</th>
     </tr>
 <?php
-require_once "scripts/Database.php";
+require_once "classes/Database.php";
 $db = new Database("library_db");
 $query = "SELECT b.title, a.first_name, a.last_name, c.category FROM books b
           INNER JOIN authors a on b.author_id = a.id
