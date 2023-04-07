@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["user_id"])) {
+    header("location: login.php");
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,7 +18,20 @@
     <nav class="main-nav">
         <h1>Library Management System</h1>
         <div>
-            <a href="">log out</a>
+            <span>
+                <?php
+                if (isset($_SESSION["user_id"])) {
+                    require_once "classes/Database.php";
+                    $db = new Database("library_db");
+                    $result = $db->getResult("SELECT first_name, last_name FROM users WHERE id = ?", array($_SESSION["user_id"]));
+                    $user = $result->fetch_assoc();
+                    $db->close();
+
+                    echo "$user[first_name] $user[last_name]";
+                }
+                ?>
+            </span>
+            <a href="scripts/logout.php">log out</a>
         </div>
     </nav>
     <div class="side-bar">
