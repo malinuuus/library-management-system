@@ -27,7 +27,7 @@
         <th>No of copies</th>
     </tr>
 <?php
-$query = "SELECT b.title, a.first_name, a.last_name, c.category FROM books b
+$query = "SELECT b.title, a.id as author_id, a.first_name, a.last_name, c.category FROM books b
           INNER JOIN authors a on b.author_id = a.id
           INNER JOIN categories c on b.category_id = c.id";
 $result = $db->getResult($query);
@@ -36,7 +36,7 @@ while ($book = $result->fetch_assoc()) {
     echo <<< BOOKROW
         <tr>
             <td>$book[title]</td>
-            <td>$book[first_name] $book[last_name]</td>
+            <td><a href="index.php?page=authors&id=$book[author_id]">$book[first_name] $book[last_name]</a></td>
             <td>$book[category]</td>
             <td>-</td>
             <td><button>Reserve</button></td>

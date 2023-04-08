@@ -48,6 +48,8 @@ if (!isset($_SESSION["user_id"])) {
         if (isset($_GET["page"])) {
             if ($_GET["page"] == "books") {
                 require_once "books.php";
+            } else if ($_GET["page"] == "authors") {
+                require_once "authors.php";
             }
         }
         ?>
