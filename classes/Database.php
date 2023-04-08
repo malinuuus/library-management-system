@@ -31,6 +31,10 @@ class Database {
         return $this->statement->get_result();
     }
 
+    public function checkAffectedRows($checkValue): bool {
+        return $this->conn->affected_rows === $checkValue;
+    }
+
     public function close() {
         if (isset($this->statement)) {
             $this->statement->close();
