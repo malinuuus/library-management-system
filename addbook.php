@@ -3,7 +3,7 @@ session_start();
 
 // if user is not logged in
 if (!isset($_SESSION["user_id"])) {
-    header("location: login.php");
+    header("location: index.php");
     exit();
 }
 
@@ -14,7 +14,7 @@ $user = $result->fetch_assoc();
 
 // if user doesn't have admin rights
 if (!$user["is_admin"]) {
-    header("location: books.php");
+    header("location: index.php?page=books");
     exit();
 }
 ?>

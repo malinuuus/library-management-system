@@ -22,4 +22,4 @@ if ($db->checkAffectedRows(1)) {
     $_SESSION["err"] = "Error!";
 }
 
-header("location: ../books.php");
+header("location: ../index.php?page=books");
