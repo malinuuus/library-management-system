@@ -27,9 +27,12 @@
         <th>No of copies</th>
     </tr>
 <?php
-$query = "SELECT b.title, a.id as author_id, a.first_name, a.last_name, c.category FROM books b
-          INNER JOIN authors a on b.author_id = a.id
-          INNER JOIN categories c on b.category_id = c.id";
+$query = "SELECT * FROM (SELECT b.title, a.id as author_id, a.first_name, a.last_name, c.category, COUNT(c2.id) as no_copies
+          FROM books b
+          LEFT JOIN authors a on b.author_id = a.id
+          LEFT JOIN categories c on b.category_id = c.id
+          LEFT JOIN copies c2 on b.id = c2.book_id
+          GROUP BY b.id) AS t1 ORDER BY t1.title";
 $result = $db->getResult($query);
 
 while ($book = $result->fetch_assoc()) {
@@ -38,10 +41,16 @@ while ($book = $result->fetch_assoc()) {
             <td>$book[title]</td>
             <td><a href="index.php?page=authors&id=$book[author_id]">$book[first_name] $book[last_name]</a></td>
             <td>$book[category]</td>
-            <td>-</td>
-            <td><button>Reserve</button></td>
-        </tr>
+            <td>$book[no_copies]</td>
     BOOKROW;
+
+    if ($user["is_admin"]) {
+        echo "</tr>";
+    } else if ($book["no_copies"] == 0) {
+        echo "<td><button disabled>Reserve</button></td></tr>";
+    } else {
+        echo "<td><button>Reserve</button></td></tr>";
+    }
 }
 
 $db->close();
