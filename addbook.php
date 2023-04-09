@@ -58,6 +58,7 @@ if (!$user["is_admin"]) {
                     ?>
                 </select>
             </label>
+            <input type="number" name="num_copies" placeholder="Number of copies">
             <button type="submit">Add</button>
             <?php
             if (isset($_SESSION["err"])) {
