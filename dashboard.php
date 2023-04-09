@@ -4,16 +4,24 @@
 require_once "classes/Database.php";
 $db = new Database("library_db");
 
-$query = "SELECT CONCAT(u.first_name, ' ' ,u.last_name) as user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') as reservation_date, b.title, CONCAT(a.first_name, ' ', a.last_name) as author, c.id as copy_id FROM reservations r
-          INNER JOIN users u on r.user_id = u.id
-          INNER JOIN copies c on r.copy_id = c.id
-          INNER JOIN books b on c.book_id = b.id
-          INNER JOIN authors a on b.author_id = a.id";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-$result = $db->getResult($query);
+$result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
+$user = $result->fetch_assoc();
 
-while ($res = $result->fetch_assoc()) {
-    echo <<< NOTIFICATION
+if ($user["is_admin"]) {
+    $query = "SELECT CONCAT(u.first_name, ' ' ,u.last_name) as user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') as reservation_date, b.title, CONCAT(a.first_name, ' ', a.last_name) as author, c.id as copy_id FROM reservations r
+              INNER JOIN users u on r.user_id = u.id
+              INNER JOIN copies c on r.copy_id = c.id
+              INNER JOIN books b on c.book_id = b.id
+              INNER JOIN authors a on b.author_id = a.id";
+
+    $result = $db->getResult($query);
+
+    while ($res = $result->fetch_assoc()) {
+        echo <<< NOTIFICATION
         <div class="notification">
             <p>$res[user] borrowed a book on $res[reservation_date]</p>
             <div class="notification-info">
@@ -23,4 +31,7 @@ while ($res = $result->fetch_assoc()) {
             </div>
         </div>
     NOTIFICATION;
+    }
 }
+
+$db->close();
