@@ -12,7 +12,7 @@ $result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESS
 $user = $result->fetch_assoc();
 
 if ($user["is_admin"]) {
-    $query = "SELECT CONCAT(u.first_name, ' ' ,u.last_name) as user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') as reservation_date, b.title, CONCAT(a.first_name, ' ', a.last_name) as author, c.id as copy_id FROM reservations r
+    $query = "SELECT CONCAT(u.first_name, ' ' ,u.last_name) as user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') as reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') as due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) as author, c.id as copy_id FROM reservations r
               INNER JOIN users u on r.user_id = u.id
               INNER JOIN copies c on r.copy_id = c.id
               INNER JOIN books b on c.book_id = b.id
@@ -28,6 +28,7 @@ if ($user["is_admin"]) {
                 <p>$res[title]</p>
                 <p>by $res[author]</p>
                 <p>id of copy: $res[copy_id]</p>
+                <p>due date is: $res[due_date]</p>
             </div>
         </div>
     NOTIFICATION;
