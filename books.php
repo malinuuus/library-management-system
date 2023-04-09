@@ -24,10 +24,10 @@
         <th>title</th>
         <th>author</th>
         <th>category</th>
-        <th>No of copies</th>
+        <th>No. of available copies</th>
     </tr>
 <?php
-$query = "SELECT * FROM (SELECT b.title, a.id as author_id, a.first_name, a.last_name, c.category, COUNT(c2.id) as no_copies
+$query = "SELECT * FROM (SELECT b.id, b.title, a.id as author_id, a.first_name, a.last_name, c.category, COUNT(CASE is_available WHEN 1 THEN 1 ELSE NULL END) as num_copies
           FROM books b
           LEFT JOIN authors a on b.author_id = a.id
           LEFT JOIN categories c on b.category_id = c.id
@@ -41,18 +41,31 @@ while ($book = $result->fetch_assoc()) {
             <td>$book[title]</td>
             <td><a href="index.php?page=authors&id=$book[author_id]">$book[first_name] $book[last_name]</a></td>
             <td>$book[category]</td>
-            <td>$book[no_copies]</td>
+            <td>$book[num_copies]</td>
     BOOKROW;
 
     if ($user["is_admin"]) {
         echo "</tr>";
-    } else if ($book["no_copies"] == 0) {
+    } else if ($book["num_copies"] == 0) {
         echo "<td><button disabled>Reserve</button></td></tr>";
     } else {
-        echo "<td><button>Reserve</button></td></tr>";
+        echo <<< RESERVEFORM
+                <td>
+                    <form action="scripts/reservebook.php" method="post">
+                        <input type="hidden" name="book_id" value="$book[id]">
+                        <button type="submit">Reserve</button>
+                    </form>
+                </td>
+            </tr>
+        RESERVEFORM;
     }
 }
 
 $db->close();
 ?>
 </table>
+<?php
+if (isset($_SESSION["err"])) {
+    echo "<p>$_SESSION[err]</p>";
+    unset($_SESSION["err"]);
+}
