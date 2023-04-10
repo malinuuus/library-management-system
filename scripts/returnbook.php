@@ -8,5 +8,5 @@ $db->getResult(
     array($now->format("Y-m-d H:i:s"), $_POST["reservation_id"])
 );
 
-header("location: ../index.php?page=dashboard");
 $db->close();
+header("location: ../index.php?page=dashboard");
