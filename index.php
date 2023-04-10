@@ -50,7 +50,11 @@ if (!isset($_SESSION["user_id"])) {
                 require_once "books.php";
             } else if ($_GET["page"] == "authors") {
                 require_once "authors.php";
+            } else if ($_GET["page"] == "dashboard") {
+                require_once "dashboard.php";
             }
+        } else {
+            require_once "dashboard.php";
         }
         ?>
     </div>
