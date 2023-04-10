@@ -12,26 +12,34 @@ $result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESS
 $user = $result->fetch_assoc();
 
 if ($user["is_admin"]) {
-    $query = "SELECT CONCAT(u.first_name, ' ' ,u.last_name) as user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') as reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') as due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) as author, c.id as copy_id FROM reservations r
+    $query = "SELECT CONCAT(u.first_name, ' ' ,u.last_name) as user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') as reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') as due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) as author, r.id, c.id as copy_id FROM reservations r
               INNER JOIN users u on r.user_id = u.id
               INNER JOIN copies c on r.copy_id = c.id
               INNER JOIN books b on c.book_id = b.id
-              INNER JOIN authors a on b.author_id = a.id";
+              INNER JOIN authors a on b.author_id = a.id
+              WHERE r.return_date IS NULL
+              ORDER BY r.reservation_date";
 
     $result = $db->getResult($query);
 
     while ($res = $result->fetch_assoc()) {
         echo <<< NOTIFICATION
-        <div class="notification">
-            <p>$res[user] borrowed a book on $res[reservation_date]</p>
-            <div class="notification-info">
-                <p>$res[title]</p>
-                <p>by $res[author]</p>
-                <p>id of copy: $res[copy_id]</p>
-                <p>due date is: $res[due_date]</p>
+            <div class="notification">
+                <p>$res[user] borrowed a book on $res[reservation_date]</p>
+                <div class="notification-content">
+                    <div class="notification-info">
+                        <p>$res[title]</p>
+                        <p>by $res[author]</p>
+                        <p>id of copy: $res[copy_id]</p>
+                        <p>due date is: $res[due_date]</p>
+                    </div>
+                    <form action="scripts/returnbook.php" method="post">
+                        <input type="hidden" name="reservation_id" value="$res[id]">
+                        <button type="submit">Book returned</button>
+                    </form>
+                </div>
             </div>
-        </div>
-    NOTIFICATION;
+        NOTIFICATION;
     }
 }
 
