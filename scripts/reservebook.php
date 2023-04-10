@@ -14,7 +14,7 @@ $due_date = new DateTime("+1 month");
 
 $db->getResult(
     "INSERT INTO reservations (copy_id, user_id, reservation_date, due_date) VALUES (?, ?, ?, ?);",
-    array($copy_id, $user_id, $now->format("Y-m-d"), $due_date->format("Y-m-d"))
+    array($copy_id, $user_id, $now->format("Y-m-d H:i:s"), $due_date->format("Y-m-d"))
 );
 
 if ($db->checkAffectedRows(1)) {
