@@ -53,6 +53,8 @@ if (!isset($_SESSION["user_id"])) {
             } else if ($_GET["page"] == "dashboard") {
                 require_once "dashboard.php";
             }
+        } else {
+            require_once "dashboard.php";
         }
         ?>
     </div>
