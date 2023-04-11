@@ -9,12 +9,11 @@ $db = new Database("library_db");
 $result = $db->getResult("SELECT id FROM copies WHERE book_id = ? AND is_available = 1 LIMIT 1", array($book_id));
 $copy_id = $result->fetch_assoc()["id"];
 
-$now = new DateTime();
 $due_date = new DateTime("+1 month");
 
 $db->getResult(
-    "INSERT INTO reservations (copy_id, user_id, reservation_date, due_date) VALUES (?, ?, ?, ?);",
-    array($copy_id, $user_id, $now->format("Y-m-d H:i:s"), $due_date->format("Y-m-d"))
+    "INSERT INTO reservations (copy_id, user_id, reservation_date, due_date) VALUES (?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 1 MONTH));",
+    array($copy_id, $user_id)
 );
 
 if ($db->checkAffectedRows(1)) {
