@@ -46,6 +46,9 @@ if ($user["is_admin"]) {
             </div>
         NOTIFICATION;
     }
+} else {
+    // todo: get user_id from session var, not from the database
+    // todo: add notifications about reservations' due date
 }
 
 $db->close();
