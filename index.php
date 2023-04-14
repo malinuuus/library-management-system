@@ -12,7 +12,11 @@ if (!isset($_SESSION["user_id"])) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Title</title>
+    <title>
+        <?php
+        echo isset($_GET["page"]) ? ucfirst($_GET["page"]) : "Dashboard";
+        ?>
+    </title>
 </head>
 <body>
     <nav class="main-nav">
