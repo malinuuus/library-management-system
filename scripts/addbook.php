@@ -32,5 +32,20 @@ for ($i = 0; $i < $num_copies; $i++) {
     $db->getResult("INSERT INTO copies (book_id, is_available) VALUES (?, 1)", array($book_id));
 }
 
+// adding image file
+$image = $_FILES["image"];
+$fileName = $image["name"];
+$fileSize = $image["size"];
+$tmpName = $image["tmp_name"];
+$ext = pathinfo($fileName, PATHINFO_EXTENSION);
+
+if ($fileSize > 1000000) {
+    $_SESSION["err"] = "Image size is too large!";
+    exit();
+}
+
+$newImageName = "../images/books/book$book_id.$ext";
+move_uploaded_file($tmpName, $newImageName);
+
 $db->close();
 header("location: ../index.php?page=books");
