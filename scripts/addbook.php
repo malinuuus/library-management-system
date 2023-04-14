@@ -44,8 +44,14 @@ if ($fileSize > 1000000) {
     exit();
 }
 
-$newImageName = "../images/books/book$book_id.$ext";
-move_uploaded_file($tmpName, $newImageName);
+$newImageName = "book$book_id.$ext";
+$newImagePath = "../images/books/$newImageName";
+move_uploaded_file($tmpName, $newImagePath);
+
+$db->getResult(
+    "UPDATE books SET cover_file_name = ? WHERE id = ?",
+    array($newImageName, $book_id)
+);
 
 $db->close();
 header("location: ../index.php?page=books");
