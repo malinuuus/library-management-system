@@ -30,7 +30,7 @@ if (!$user["is_admin"]) {
 <body>
     <div class="wrapper">
         <h3>Add a new book to database</h3>
-        <form action="scripts/addbook.php" method="post">
+        <form action="scripts/addbook.php" method="post" enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Title">
             <label>
                 Author
@@ -59,6 +59,8 @@ if (!$user["is_admin"]) {
                 </select>
             </label>
             <input type="number" name="num_copies" placeholder="Number of copies">
+            <label for="image">Image: </label>
+            <input type="file" name="image" id="image" accept="image/*">
             <button type="submit">Add</button>
             <?php
             if (isset($_SESSION["err"])) {
