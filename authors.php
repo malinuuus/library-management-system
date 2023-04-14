@@ -15,7 +15,18 @@ if (isset($_GET["id"])) {
     $result = $db->getResult("SELECT * FROM books b INNER JOIN authors a on b.author_id = a.id WHERE a.id = ?", array($_GET["id"]));
 
     while ($book = $result->fetch_assoc()) {
-        echo "<p>$book[title]</p>";
+        $imagePath = "images/books/$book[cover_file_name]";
+
+        if (!isset($book["cover_file_name"]) || !file_exists($imagePath)) {
+            $imagePath = "images/blank.jpg";
+        }
+
+        echo <<< BOOK
+            <div class="book-info">
+                <img src=$imagePath alt="book cover" width="100">
+                <p>$book[title]</p>
+            </div>
+        BOOK;
     }
 } else {
     echo "<h3>Authors</h3>";

@@ -21,13 +21,14 @@
 </div>
 <table class="books-table">
     <tr>
+        <th></th>
         <th>title</th>
         <th>author</th>
         <th>category</th>
         <th>No. of available copies</th>
     </tr>
 <?php
-$query = "SELECT * FROM (SELECT b.id, b.title, a.id as author_id, a.first_name, a.last_name, c.category, COUNT(CASE is_available WHEN 1 THEN 1 ELSE NULL END) as num_copies
+$query = "SELECT * FROM (SELECT b.id, b.title, b.cover_file_name, a.id as author_id, a.first_name, a.last_name, c.category, COUNT(CASE is_available WHEN 1 THEN 1 ELSE NULL END) as num_copies
           FROM books b
           LEFT JOIN authors a on b.author_id = a.id
           LEFT JOIN categories c on b.category_id = c.id
@@ -36,8 +37,15 @@ $query = "SELECT * FROM (SELECT b.id, b.title, a.id as author_id, a.first_name, 
 $result = $db->getResult($query);
 
 while ($book = $result->fetch_assoc()) {
+    $imagePath = "images/books/$book[cover_file_name]";
+
+    if (!isset($book["cover_file_name"]) || !file_exists($imagePath)) {
+        $imagePath = "images/blank.jpg";
+    }
+
     echo <<< BOOKROW
         <tr>
+            <td><img src=$imagePath alt="book cover" width="100"></td>
             <td>$book[title]</td>
             <td><a href="index.php?page=authors&id=$book[author_id]">$book[first_name] $book[last_name]</a></td>
             <td>$book[category]</td>
