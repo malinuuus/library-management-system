@@ -9,11 +9,14 @@ foreach ($_POST as $key => $value) {
     }
 }
 
+require_once "uploadfile.php";
+$fileName = uploadFile($_FILES["image"], "../images/books/");
+
 require_once "../classes/Database.php";
 $db = new Database("library_db");
 $db->getResult(
-    "INSERT INTO books (title, author_id, category_id) VALUES (?, ?, ?);",
-    array($_POST["title"], $_POST["author_id"], $_POST["category_id"])
+    "INSERT INTO books (title, author_id, category_id, cover_file_name) VALUES (?, ?, ?, ?);",
+    array($_POST["title"], $_POST["author_id"], $_POST["category_id"], $fileName)
 );
 
 if ($db->checkAffectedRows(1)) {
@@ -31,27 +34,6 @@ $num_copies = (int)$_POST["num_copies"];
 for ($i = 0; $i < $num_copies; $i++) {
     $db->getResult("INSERT INTO copies (book_id, is_available) VALUES (?, 1)", array($book_id));
 }
-
-// adding image file
-$image = $_FILES["image"];
-$fileName = $image["name"];
-$fileSize = $image["size"];
-$tmpName = $image["tmp_name"];
-$ext = pathinfo($fileName, PATHINFO_EXTENSION);
-
-if ($fileSize > 1000000) {
-    $_SESSION["err"] = "Image size is too large!";
-    exit();
-}
-
-$newImageName = "book$book_id.$ext";
-$newImagePath = "../images/books/$newImageName";
-move_uploaded_file($tmpName, $newImagePath);
-
-$db->getResult(
-    "UPDATE books SET cover_file_name = ? WHERE id = ?",
-    array($newImageName, $book_id)
-);
 
 $db->close();
 header("location: ../index.php?page=books");
