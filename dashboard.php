@@ -12,7 +12,7 @@ $result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESS
 $user = $result->fetch_assoc();
 
 if ($user["is_admin"]) {
-    $query = "SELECT CONCAT(u.first_name, ' ' ,u.last_name) as user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') as reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') as due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) as author, r.id, c.id as copy_id, r.due_date < NOW() as is_after_duedate FROM reservations r
+    $query = "SELECT CONCAT(u.first_name, ' ' ,u.last_name) AS user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') AS reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') AS due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) AS author, r.id, c.id AS copy_id, r.due_date < NOW() AS is_after_duedate FROM reservations r
               INNER JOIN users u on r.user_id = u.id
               INNER JOIN copies c on r.copy_id = c.id
               INNER JOIN books b on c.book_id = b.id
@@ -49,6 +49,30 @@ if ($user["is_admin"]) {
 } else {
     // todo: get user_id from session var, not from the database
     // todo: add notifications about reservations' due date
+    $query = "SELECT DATE_FORMAT(r.reservation_date, '%Y-%m-%d') AS reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') AS due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) AS author, r.due_date < NOW() AS is_after_duedate FROM reservations r
+              INNER JOIN users u on r.user_id = u.id
+              INNER JOIN copies c on r.copy_id = c.id
+              INNER JOIN books b on c.book_id = b.id
+              INNER JOIN authors a on b.author_id = a.id
+              WHERE r.return_date IS NULL AND u.id = ?
+              ORDER BY r.reservation_date DESC";
+
+    $result = $db->getResult($query, array($_SESSION["user_id"]));
+
+    while ($res = $result->fetch_assoc()) {
+        echo "<div class='notification'>";
+        echo $res["is_after_duedate"] ? "<p>You haven't returned the book yet!</p>" : "<p>You borrowed a book on $res[reservation_date]</p>";
+
+        echo <<< NOTIFICATION
+                <div class="notification-content">
+                    <div class="notification-info">
+                        <p>$res[title]</p>
+                        <p>by $res[author]</p>
+        NOTIFICATION;
+
+        echo $res["is_after_duedate"] ? "<p>due date was: $res[due_date]</p>" : "<p>due date is: $res[due_date]</p>";
+        echo "</div></div></div>";
+    }
 }
 
 $db->close();
