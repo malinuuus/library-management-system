@@ -21,34 +21,7 @@ if ($user["is_admin"]) {
               ORDER BY r.reservation_date DESC";
 
     $result = $db->getResult($query);
-
-    while ($res = $result->fetch_assoc()) {
-        echo "<div class='notification'>";
-        echo $res["is_after_duedate"] ? "<p>$res[user] hasn't returned the book yet!</p>" : "<p>$res[user] borrowed a book on $res[reservation_date]</p>";
-
-        echo <<< NOTIFICATION
-                <div class="notification-content">
-                    <div class="notification-info">
-                        <p>$res[title]</p>
-                        <p>by $res[author]</p>
-                        <p>id of copy: $res[copy_id]</p>
-        NOTIFICATION;
-
-        echo $res["is_after_duedate"] ? "<p>due date was: $res[due_date]</p>" : "<p>due date is: $res[due_date]</p>";
-
-        echo <<< NOTIFICATION
-                    </div>
-                    <form action="scripts/returnbook.php" method="post">
-                        <input type="hidden" name="reservation_id" value="$res[id]">
-                        <button type="submit">Book returned</button>
-                    </form>
-                </div>
-            </div>
-        NOTIFICATION;
-    }
 } else {
-    // todo: get user_id from session var, not from the database
-    // todo: add notifications about reservations' due date
     $query = "SELECT DATE_FORMAT(r.reservation_date, '%Y-%m-%d') AS reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') AS due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) AS author, r.due_date < NOW() AS is_after_duedate FROM reservations r
               INNER JOIN users u on r.user_id = u.id
               INNER JOIN copies c on r.copy_id = c.id
@@ -58,19 +31,41 @@ if ($user["is_admin"]) {
               ORDER BY r.reservation_date DESC";
 
     $result = $db->getResult($query, array($_SESSION["user_id"]));
+}
 
-    while ($res = $result->fetch_assoc()) {
-        echo "<div class='notification'>";
+while ($res = $result->fetch_assoc()) {
+    echo "<div class='notification'>";
+
+    if ($user["is_admin"]) {
+        echo $res["is_after_duedate"] ? "<p>$res[user] hasn't returned the book yet!</p>" : "<p>$res[user] borrowed a book on $res[reservation_date]</p>";
+    } else {
         echo $res["is_after_duedate"] ? "<p>You haven't returned the book yet!</p>" : "<p>You borrowed a book on $res[reservation_date]</p>";
+    }
 
+    echo <<< NOTIFICATION
+            <div class="notification-content">
+                <div class="notification-info">
+                    <p>$res[title]</p>
+                    <p>by $res[author]</p>
+    NOTIFICATION;
+
+    if ($user["is_admin"]) {
+        echo "<p>id of copy: $res[copy_id]</p>";
+    }
+
+    echo $res["is_after_duedate"] ? "<p>due date was: $res[due_date]</p>" : "<p>due date is: $res[due_date]</p>";
+
+    if ($user["is_admin"]) {
         echo <<< NOTIFICATION
-                <div class="notification-content">
-                    <div class="notification-info">
-                        <p>$res[title]</p>
-                        <p>by $res[author]</p>
+                    </div>
+                    <form action="scripts/returnbook.php" method="post">
+                        <input type="hidden" name="reservation_id" value="$res[id]">
+                        <button type="submit">Book returned</button>
+                    </form>
+                </div>
+            </div>
         NOTIFICATION;
-
-        echo $res["is_after_duedate"] ? "<p>due date was: $res[due_date]</p>" : "<p>due date is: $res[due_date]</p>";
+    } else {
         echo "</div></div></div>";
     }
 }
