@@ -19,6 +19,7 @@
             session_start();
             if (isset($_SESSION["err"])) {
                 echo "<span>$_SESSION[err]</span>";
+                unset($_SESSION["err"]);
             }
             ?>
         </form>
