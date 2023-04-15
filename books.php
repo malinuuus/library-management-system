@@ -40,7 +40,7 @@ while ($book = $result->fetch_assoc()) {
     $imagePath = "images/books/$book[cover_file_name]";
 
     if (!isset($book["cover_file_name"]) || !file_exists($imagePath)) {
-        $imagePath = "images/blank.jpg";
+        $imagePath = "images/blank_book.jpg";
     }
 
     echo <<< BOOKROW
