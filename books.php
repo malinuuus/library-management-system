@@ -1,9 +1,9 @@
 <h3>Books</h3>
 <div>
-    <label class="search-bar">
-        <span>🔍</span>
-        <input type="text">
-    </label>
+    <div>
+        <label class="search-bar-label" for="search-bar">🔍</label>
+        <input type="text" id="search-bar">
+    </div>
     <?php
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
@@ -41,12 +41,12 @@ while ($book = $result->fetch_assoc()) {
     $imagePath = getFilePath("images/books/", $book["cover_file_name"], "images/blank_book.jpg");
 
     echo <<< BOOKROW
-        <tr>
-            <td><img src=$imagePath alt="book cover" width="100"></td>
-            <td>$book[title]</td>
-            <td><a href="index.php?page=authors&id=$book[author_id]">$book[first_name] $book[last_name]</a></td>
-            <td>$book[category]</td>
-            <td>$book[num_copies]</td>
+        <tr class="book-row">
+            <td class="book-row-img"><img src=$imagePath alt="book cover" width="100"></td>
+            <td class="book-row-title">$book[title]</td>
+            <td class="book-row-author"><a href="index.php?page=authors&id=$book[author_id]">$book[first_name] $book[last_name]</a></td>
+            <td class="book-row-category">$book[category]</td>
+            <td class="book-row-copies">$book[num_copies]</td>
     BOOKROW;
 
     if ($user["is_admin"]) {
@@ -82,3 +82,5 @@ if (isset($_SESSION["err"])) {
     echo "<p>$_SESSION[err]</p>";
     unset($_SESSION["err"]);
 }
+?>
+<script src="js/filter_data.js"></script>
