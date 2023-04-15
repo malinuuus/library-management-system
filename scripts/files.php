@@ -23,11 +23,21 @@ function uploadFile($file, $destinationDir) {
 }
 
 function getFilePath(string $dir, $fileName, string $filePlaceholder = ""): string {
-    $imagePath = $dir.$fileName;
+    $filePath = $dir.$fileName;
 
-    if (!isset($fileName) || !file_exists($imagePath)) {
-        $imagePath = $filePlaceholder;
+    if (!isset($fileName) || !file_exists($filePath)) {
+        $filePath = $filePlaceholder;
     }
 
-    return $imagePath;
+    return $filePath;
+}
+
+function deleteFile(string $dir, $fileName): bool {
+    $filePath = $dir.$fileName;
+
+    if (file_exists($filePath)) {
+        unlink($filePath);
+        return true;
+    }
+    return false;
 }
