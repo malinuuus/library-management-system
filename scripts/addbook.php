@@ -9,7 +9,7 @@ foreach ($_POST as $key => $value) {
     }
 }
 
-require_once "uploadfile.php";
+require_once "files.php";
 $fileName = uploadFile($_FILES["image"], "../images/books/");
 
 require_once "../classes/Database.php";

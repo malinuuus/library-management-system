@@ -37,11 +37,8 @@ $query = "SELECT * FROM (SELECT b.id, b.title, b.cover_file_name, a.id as author
 $result = $db->getResult($query);
 
 while ($book = $result->fetch_assoc()) {
-    $imagePath = "images/books/$book[cover_file_name]";
-
-    if (!isset($book["cover_file_name"]) || !file_exists($imagePath)) {
-        $imagePath = "images/blank_book.jpg";
-    }
+    require_once "scripts/files.php";
+    $imagePath = getFilePath("images/books/", $book["cover_file_name"], "images/blank_book.jpg");
 
     echo <<< BOOKROW
         <tr>

@@ -1,16 +1,12 @@
 <?php
+require_once "scripts/files.php";
 require_once "classes/Database.php";
 $db = new Database("library_db");
 
 if (isset($_GET["id"])) {
     $result = $db->getResult("SELECT * FROM authors WHERE id = ?", array($_GET["id"]));
     $author = $result->fetch_assoc();
-
-    $imagePath = "images/authors/$author[image_file_name]";
-
-    if (!isset($author["image_file_name"]) || !file_exists($imagePath)) {
-        $imagePath = "images/blank_author.jpg";
-    }
+    $imagePath = getFilePath("images/authors/", $author["image_file_name"], "images/blank_author.jpg");
 
     echo <<< AUTHORINFO
         <h3>Authors &nbsp > &nbsp $author[first_name] $author[last_name]</h3>
@@ -42,11 +38,7 @@ if (isset($_GET["id"])) {
     $result = $db->getResult("SELECT id, first_name, last_name, SUBSTR(description, 1, 300) AS description, image_file_name FROM authors ORDER BY last_name AND first_name");
 
     while ($author = $result->fetch_assoc()) {
-        $imagePath = "images/authors/$author[image_file_name]";
-
-        if (!isset($author["image_file_name"]) || !file_exists($imagePath)) {
-            $imagePath = "images/blank_author.jpg";
-        }
+        $imagePath = getFilePath("images/authors/", $author["image_file_name"], "images/blank_author.jpg");
 
         echo <<< AUTHOR
             <div class="author-info">
