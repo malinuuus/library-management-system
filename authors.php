@@ -34,7 +34,14 @@ if (isset($_GET["id"])) {
         BOOK;
     }
 } else {
-    echo "<h3>Authors</h3>";
+    echo <<< AUTHORHEADER
+        <h3>Authors</h3>
+        <div>
+            <label class="search-bar-label" for="search-bar">🔍</label>
+            <input type="text" id="search-bar">
+        </div>
+    AUTHORHEADER;
+
     $result = $db->getResult("SELECT id, first_name, last_name, SUBSTR(description, 1, 300) AS description, image_file_name FROM authors ORDER BY last_name AND first_name");
 
     while ($author = $result->fetch_assoc()) {
@@ -44,12 +51,14 @@ if (isset($_GET["id"])) {
             <div class="author-info">
                 <img src=$imagePath alt="author photo" width="100">
                 <a href="index.php?page=authors&id=$author[id]">
-                    <h4>$author[first_name] $author[last_name]</h4>
-                    <p>$author[description]...</p>
+                    <h4 class="author-name">$author[first_name] $author[last_name]</h4>
+                    <p class="author-description">$author[description]...</p>
                 </a>
             </div>
         AUTHOR;
     }
+
+    echo "<script src='js/filter_data.js'></script>";
 }
 
 $db->close();
