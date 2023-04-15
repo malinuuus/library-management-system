@@ -1,13 +1,17 @@
 <?php
 function uploadFile($file, $destinationDir) {
+    if (!file_exists($file["tmp_name"]) || !is_uploaded_file($file["tmp_name"])) {
+        return null;
+    }
+
     $fileName = $file["name"];
     $fileSize = $file["size"];
     $tmpName = $file["tmp_name"];
     $ext = pathinfo($fileName, PATHINFO_EXTENSION);
 
-    if ($fileSize > 1000000) {
+    if ($fileSize > 2000000) {
         $_SESSION["err"] = "File size is too large!";
-        exit();
+        return null;
     }
 
     $id = uniqid();
@@ -18,7 +22,7 @@ function uploadFile($file, $destinationDir) {
     return $newFileName;
 }
 
-function getFilePath(string $dir, string $fileName, string $filePlaceholder = ""): string {
+function getFilePath(string $dir, $fileName, string $filePlaceholder = ""): string {
     $imagePath = $dir.$fileName;
 
     if (!isset($fileName) || !file_exists($imagePath)) {

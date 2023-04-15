@@ -12,6 +12,11 @@ foreach ($_POST as $key => $value) {
 require_once "files.php";
 $fileName = uploadFile($_FILES["image"], "../images/books/");
 
+if (isset($_SESSION["err"])) {
+    echo "<script>history.back();</script>";
+    exit();
+}
+
 require_once "../classes/Database.php";
 $db = new Database("library_db");
 $db->getResult(
