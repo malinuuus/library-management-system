@@ -50,7 +50,15 @@ while ($book = $result->fetch_assoc()) {
     BOOKROW;
 
     if ($user["is_admin"]) {
-        echo "</tr>";
+        echo <<< DELETEFORM
+                <td>
+                    <form action="scripts/deletebook.php" method="post">
+                        <input type="hidden" name="book_id" value="$book[id]">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        DELETEFORM;
     } else if ($book["num_copies"] == 0) {
         echo "<td><button disabled>Reserve</button></td></tr>";
     } else {
