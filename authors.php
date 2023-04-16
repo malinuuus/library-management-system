@@ -21,14 +21,27 @@ if (isset($_GET["id"])) {
             <img src=$imagePath alt="author photo" width="100">
             <p>$author[description]</p>
         </div>
-        <div class="author-buttons">
-            <form action="scripts/deleteauthor.php" method="post">
-                <input type="hidden" name="author_id" value="$author[id]">
-                <button type="submit">Delete author</button>
-            </form>
-        </div>
-        <h3>Books:</h3>
     AUTHORINFO;
+
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    $result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
+    $user = $result->fetch_assoc();
+
+    if ($user["is_admin"]) {
+        echo <<< AUTHORINFO
+            <div class="author-buttons">
+                <form action="scripts/deleteauthor.php" method="post">
+                    <input type="hidden" name="author_id" value="$author[id]">
+                    <button type="submit">Delete author</button>
+                </form>
+            </div>
+        AUTHORINFO;
+    }
+
+    echo "<h3>Books:</h3>";
 
     $result = $db->getResult("SELECT * FROM books b INNER JOIN authors a on b.author_id = a.id WHERE a.id = ?", array($_GET["id"]));
 
