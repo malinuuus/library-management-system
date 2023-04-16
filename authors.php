@@ -5,6 +5,13 @@ $db = new Database("library_db");
 
 if (isset($_GET["id"])) {
     $result = $db->getResult("SELECT * FROM authors WHERE id = ?", array($_GET["id"]));
+
+    // checking if author with giver in exists
+    if ($result->num_rows === 0) {
+        header("location: index.php?page=authors");
+        exit();
+    }
+
     $author = $result->fetch_assoc();
     $imagePath = getFilePath("images/authors/", $author["image_file_name"], "images/blank_author.jpg");
 
