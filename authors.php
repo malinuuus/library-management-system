@@ -21,6 +21,12 @@ if (isset($_GET["id"])) {
             <img src=$imagePath alt="author photo" width="100">
             <p>$author[description]</p>
         </div>
+        <div class="author-buttons">
+            <form action="scripts/deleteauthor.php" method="post">
+                <input type="hidden" name="author_id" value="$author[id]">
+                <button type="submit">Delete author</button>
+            </form>
+        </div>
         <h3>Books:</h3>
     AUTHORINFO;
 
