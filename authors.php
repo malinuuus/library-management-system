@@ -5,6 +5,13 @@ $db = new Database("library_db");
 
 if (isset($_GET["id"])) {
     $result = $db->getResult("SELECT * FROM authors WHERE id = ?", array($_GET["id"]));
+
+    // checking if author with giver in exists
+    if ($result->num_rows === 0) {
+        header("location: index.php?page=authors");
+        exit();
+    }
+
     $author = $result->fetch_assoc();
     $imagePath = getFilePath("images/authors/", $author["image_file_name"], "images/blank_author.jpg");
 
@@ -13,6 +20,12 @@ if (isset($_GET["id"])) {
         <div class="author-info">
             <img src=$imagePath alt="author photo" width="100">
             <p>$author[description]</p>
+        </div>
+        <div class="author-buttons">
+            <form action="scripts/deleteauthor.php" method="post">
+                <input type="hidden" name="author_id" value="$author[id]">
+                <button type="submit">Delete author</button>
+            </form>
         </div>
         <h3>Books:</h3>
     AUTHORINFO;
