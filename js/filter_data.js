@@ -2,8 +2,8 @@ const searchBar = document.getElementById('search-bar');
 const booksArray = document.querySelectorAll('.book-row');
 const authorsArray = document.querySelectorAll('.author-info');
 
-function filterRows(array, tagName, filterColumns) {
-    array.forEach(item => {
+function filterRows(nodeList, tagName, filterColumns) {
+    nodeList.forEach(item => {
         item.style.display = "none";
         const tdArray = item.getElementsByTagName(tagName);
 
