@@ -32,11 +32,6 @@ if (!$user["is_admin"]) {
     <title>Add a book</title>
 </head>
 <body>
-<?php
-if (isset($_SESSION["updatingBookId"])) {
-    echo $_SESSION["updatingBookId"];
-}
-?>
     <div class="wrapper">
         <h3>Add a new book to database</h3>
             <?php
@@ -103,6 +98,7 @@ if (isset($_SESSION["updatingBookId"])) {
             <input type="file" name="image" id="image" accept="image/*">
             <?php
             if (isset($_SESSION["updatingBookId"])) {
+                echo "<input type='hidden' name='book_id' value='$_SESSION[updatingBookId]'>";
                 echo "<button type='submit'>Update</button>";
                 unset($_SESSION["updatingBookId"]);
             } else {
