@@ -52,9 +52,9 @@ while ($book = $result->fetch_assoc()) {
     if ($user["is_admin"]) {
         echo <<< DELETEFORM
                 <td>
-                    <form action="scripts/updatebook.php" method="post">
+                    <form action="book.php" method="post">
                         <input type="hidden" name="book_id" value="$book[id]">
-                        <button type="submit" value="1">Update</button>
+                        <button type="submit" name="submit" value="1">Update</button>
                     </form>
                     <form action="scripts/deletebook.php" method="post">
                         <input type="hidden" name="book_id" value="$book[id]">

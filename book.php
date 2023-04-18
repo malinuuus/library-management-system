@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if (isset($_POST["submit"])) {
+    $_SESSION["updatingBookId"] = $_POST["book_id"];
+}
+
 // if user is not logged in
 if (!isset($_SESSION["user_id"])) {
     header("location: index.php");
@@ -35,12 +39,12 @@ if (isset($_SESSION["updatingBookId"])) {
 ?>
     <div class="wrapper">
         <h3>Add a new book to database</h3>
-        <form action="scripts/addbook.php" method="post" enctype="multipart/form-data">
             <?php
             $updatedTitle = "";
             $updatedAuthorId = 0;
             $updatedCategoryId = 0;
-            $updatedNumOfCopies = 0;
+            $updatedNumOfCopies = "";
+            $actionPath = "scripts/addbook.php";
 
             if (isset($_SESSION["updatingBookId"])) {
                 $result = $db->getResult(
@@ -52,8 +56,10 @@ if (isset($_SESSION["updatingBookId"])) {
                 $updatedAuthorId = $book["a_id"];
                 $updatedCategoryId = $book["c_id"];
                 $updatedNumOfCopies = $book["copies"];
+                $actionPath = "scripts/updatebook.php";
             }
 
+            echo "<form action='$actionPath' method='post' enctype='multipart/form-data'>";
             echo "<input type='text' name='title' placeholder='Title' value='$updatedTitle'>";
             ?>
             <label>
@@ -100,7 +106,7 @@ if (isset($_SESSION["updatingBookId"])) {
                 echo "<button type='submit'>Update</button>";
                 unset($_SESSION["updatingBookId"]);
             } else {
-                echo "<button type='submit'>Add</button>";
+                echo "<button type='submit' name='submit'>Add</button>";
             }
 
             if (isset($_SESSION["err"])) {
