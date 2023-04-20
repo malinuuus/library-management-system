@@ -15,7 +15,7 @@
     $user = $result->fetch_assoc();
 
     if ($user["is_admin"]) {
-        echo "<a href='book.php'>Add a book</a>";
+        echo "<a href='book.php?mode=add'>Add a book</a>";
     }
     ?>
 </div>

@@ -1,5 +1,10 @@
 <?php
+// page to update and add a book to the database
 session_start();
+
+if (isset($_SESSION["updatingBookId"]) && isset($_GET["mode"]) && $_GET["mode"] === "add") {
+    unset($_SESSION["updatingBookId"]);
+}
 
 // if user is not logged in
 if (!isset($_SESSION["user_id"])) {
