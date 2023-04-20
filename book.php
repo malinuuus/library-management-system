@@ -53,7 +53,7 @@ if (!$user["is_admin"]) {
             $updatedCategoryId = $book["c_id"];
             $updatedNumOfCopies = $book["copies"];
             $actionPath = "scripts/updatebook.php";
-            $pageTitle = "Update a new book to database";
+            $pageTitle = "Update a selected book";
         }
 
         echo "<h3>$pageTitle</h3>";
