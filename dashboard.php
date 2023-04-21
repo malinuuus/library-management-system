@@ -35,9 +35,9 @@ if ($user["is_admin"]) {
 
 while ($res = $result->fetch_assoc()) {
     echo "<div class='notification'>";
-    $userLink = "<a href='index.php?page=userProfile&id=$res[user_id]'>$res[user]</a>";
 
     if ($user["is_admin"]) {
+        $userLink = "<a href='index.php?page=userProfile&id=$res[user_id]'>$res[user]</a>";
         echo $res["is_after_duedate"] ? "<p>$userLink hasn't returned the book yet!</p>" : "<p>$userLink borrowed a book on $res[reservation_date]</p>";
     } else {
         echo $res["is_after_duedate"] ? "<p>You haven't returned the book yet!</p>" : "<p>You borrowed a book on $res[reservation_date]</p>";

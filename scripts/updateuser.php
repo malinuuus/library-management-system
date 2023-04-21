@@ -9,11 +9,13 @@ foreach ($_POST as $key => $value) {
     }
 }
 
+$isAdmin = $_POST["admin_rights"] == "on" ? 1 : 0;
+
 require_once "../classes/Database.php";
 $db = new Database("library_db");
 $db->getResult(
-    "UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?",
-    array($_POST["first_name"], $_POST["last_name"], $_POST["email"], $_POST["user_id"])
+    "UPDATE users SET first_name = ?, last_name = ?, email = ?, is_admin = ? WHERE id = ?",
+    array($_POST["first_name"], $_POST["last_name"], $_POST["email"], $isAdmin, $_POST["user_id"])
 );
 
 if ($db->checkAffectedRows(1)) {

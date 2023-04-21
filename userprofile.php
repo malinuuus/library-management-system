@@ -1,4 +1,3 @@
-<h3>Your profile</h3>
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -17,6 +16,12 @@ if (empty($user) || ($_SESSION["user_id"] != $_GET["id"] && !$loggedUser["is_adm
     header("location: index.php");
     exit();
 }
+
+if ($_SESSION["user_id"] == $_GET["id"]) {
+    echo "<h3>Your profile</h3>";
+} else {
+    echo "<h3>$user[first_name] $user[last_name]'s profile</h3>";
+}
 ?>
 <form action="scripts/updateuser.php" method="post">
     <input type="hidden" name="user_id" value="<?php echo $_GET["id"] ?>">
@@ -29,6 +34,9 @@ if (empty($user) || ($_SESSION["user_id"] != $_GET["id"] && !$loggedUser["is_adm
 
         <label for="email">Email</label>
         <input type="text" name="email" id="email" value="<?php echo $user["email"] ?>" disabled>
+
+        <label for="admin-rights">Admin rights</label>
+        <input type="checkbox" name="admin_rights" id="admin-rights" <?php echo $user["is_admin"] ? "checked" : "" ?> disabled>
     </div>
     <div class="profile-buttons">
         <button type="button" id="profile-edit-btn">Edit</button>
