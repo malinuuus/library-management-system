@@ -2,7 +2,7 @@
 session_start();
 
 foreach ($_POST as $key => $value) {
-    if (empty($value)) {
+    if (empty($value) && $key !== "num_copies") {
         echo "<script>history.back();</script>";
         $_SESSION["err"] = "Fill out all fields!";
         exit();

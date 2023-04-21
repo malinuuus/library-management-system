@@ -6,8 +6,7 @@ if (isset($_POST["book_id"])) {
     header("location: ../book.php");
 } else if (isset($_SESSION["updatingBookId"])) {
     foreach ($_POST as $key => $value) {
-        // todo: correct 0 value for number of copies
-        if (empty($value) && (int)$value !== 0) {
+        if (empty($value) && $key !== "num_copies") {
             $_SESSION["err"] = "Fill out all fields!";
             echo "<script>history.back();</script>";
             exit();
