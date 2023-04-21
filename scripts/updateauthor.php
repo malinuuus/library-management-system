@@ -16,7 +16,7 @@ $db->getResult("UPDATE authors SET first_name = ?, last_name = ?, description = 
 if ($db->checkAffectedRows(1)) {
     $_SESSION["err"] = "Author has been successfully updated";
 } else {
-    $_SESSION["err"] = "Error occurred while updating the author!";
+    $_SESSION["err"] = "Author hasn't been updated!";
 }
 
 $db->close();

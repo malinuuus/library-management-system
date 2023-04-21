@@ -13,6 +13,19 @@ firstNameInput.value = firstName.innerText;
 const lastNameInput = document.createElement('input');
 lastNameInput.value = lastName.innerText;
 
+function createHiddenInput(name, input) {
+    const hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', name);
+    hiddenInput.setAttribute('value', input.value);
+
+    input.addEventListener('input', () => {
+        hiddenInput.setAttribute('value', input.value);
+    });
+
+    updateForm.appendChild(hiddenInput);
+}
+
 let isClicked = false;
 updateBtn.addEventListener('click', () => {
     if (!isClicked) {
@@ -24,33 +37,9 @@ updateBtn.addEventListener('click', () => {
         firstName.replaceWith(firstNameInput);
         lastName.replaceWith(lastNameInput);
 
-        const hiddenInput = document.createElement('input');
-        hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'description');
-
-        const hiddenFirstNameInput = document.createElement('input');
-        hiddenFirstNameInput.setAttribute('type', 'hidden');
-        hiddenFirstNameInput.setAttribute('name', 'first_name');
-
-        const hiddenLastNameInput = document.createElement('input');
-        hiddenLastNameInput.setAttribute('type', 'hidden');
-        hiddenLastNameInput.setAttribute('name', 'last_name');
-
-        textArea.addEventListener('input', () => {
-            hiddenInput.setAttribute('value', textArea.value);
-        });
-
-        firstNameInput.addEventListener('input', () => {
-            hiddenFirstNameInput.setAttribute('value', firstNameInput.value);
-        });
-
-        lastNameInput.addEventListener('input', () => {
-            hiddenLastNameInput.setAttribute('value', lastNameInput.value);
-        });
-
-        updateForm.appendChild(hiddenInput);
-        updateForm.appendChild(hiddenFirstNameInput);
-        updateForm.appendChild(hiddenLastNameInput);
+        createHiddenInput('description', textArea);
+        createHiddenInput('first_name', firstNameInput);
+        createHiddenInput('last_name', lastNameInput);
 
         setTimeout(() => updateForm.onsubmit = () => {}, 1);
     }
