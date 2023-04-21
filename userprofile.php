@@ -17,15 +17,28 @@ if (empty($user) || ($_SESSION["user_id"] != $_GET["id"] && !$loggedUser["is_adm
     header("location: index.php");
     exit();
 }
-
 ?>
-<div class="profile-info">
-    <label for="first-name">First name</label>
-    <input type="text" id="first-name" value="<?php echo $user["first_name"] ?>" disabled>
+<form action="scripts/updateuser.php" method="post">
+    <input type="hidden" name="user_id" value="<?php echo $_GET["id"] ?>">
+    <div class="profile-info">
+        <label for="first-name">First name</label>
+        <input type="text" name="first_name" id="first-name" value="<?php echo $user["first_name"] ?>" disabled>
 
-    <label for="last-name">Last name</label>
-    <input type="text" id="last-name" value="<?php echo $user["last_name"] ?>" disabled>
+        <label for="last-name">Last name</label>
+        <input type="text" name="last_name" id="last-name" value="<?php echo $user["last_name"] ?>" disabled>
 
-    <label for="email">Email</label>
-    <input type="text" id="email" value="<?php echo $user["email"] ?>" disabled>
-</div>
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" value="<?php echo $user["email"] ?>" disabled>
+    </div>
+    <div class="profile-buttons">
+        <button type="button" id="profile-edit-btn">Edit</button>
+        <button type="submit" id="profile-save-btn" disabled>Save</button>
+    </div>
+</form>
+<?php
+if (isset($_SESSION["err"])) {
+    echo $_SESSION["err"];
+    unset($_SESSION["err"]);
+}
+?>
+<script src="js/editUser.js"></script>
