@@ -22,7 +22,7 @@ if (!isset($_SESSION["user_id"])) {
     <nav class="main-nav">
         <h1>Library Management System</h1>
         <div>
-            <span>
+            <a href="index.php?page=userProfile">
                 <?php
                 if (isset($_SESSION["user_id"])) {
                     require_once "classes/Database.php";
@@ -34,7 +34,7 @@ if (!isset($_SESSION["user_id"])) {
                     echo "$user[first_name] $user[last_name]";
                 }
                 ?>
-            </span>
+            </a>
             <a href="scripts/logout.php">log out</a>
         </div>
     </nav>
@@ -56,6 +56,8 @@ if (!isset($_SESSION["user_id"])) {
                 require_once "authors.php";
             } else if ($_GET["page"] == "dashboard") {
                 require_once "dashboard.php";
+            } else if ($_GET["page"] == "userProfile") {
+                require_once "userprofile.php";
             }
         } else {
             require_once "dashboard.php";
