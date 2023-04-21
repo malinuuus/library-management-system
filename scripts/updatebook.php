@@ -32,7 +32,7 @@ if (isset($_POST["book_id"])) {
         exit();
     } else if ($copiesCount < $allCopiesCount) {
         // delete available copies
-        $db->getResult("DELETE FROM copies WHERE is_available = 1 LIMIT ?", array($allCopiesCount - $copiesCount));
+        $db->getResult("DELETE FROM copies WHERE is_available = 1 AND book_id = ? LIMIT ?", array($_SESSION["updatingBookId"], $allCopiesCount - $copiesCount));
 
         if (!$db->checkAffectedRows($allCopiesCount - $copiesCount)) {
             $_SESSION["err"] = "Error occurred while deleting copies of the book!";
