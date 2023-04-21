@@ -22,7 +22,7 @@ if (!isset($_SESSION["user_id"])) {
     <nav class="main-nav">
         <h1>Library Management System</h1>
         <div>
-            <a href="index.php?page=userProfile">
+            <a href="index.php?page=userProfile&id=<?php echo $_SESSION["user_id"] ?>">
                 <?php
                 if (isset($_SESSION["user_id"])) {
                     require_once "classes/Database.php";

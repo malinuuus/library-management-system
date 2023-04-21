@@ -6,8 +6,17 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once "classes/Database.php";
 $db = new Database("library_db");
-$result = $db->getResult("SELECT first_name, last_name, email, is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
+$result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
+$loggedUser = $result->fetch_assoc();
+
+$result = $db->getResult("SELECT first_name, last_name, email, is_admin FROM users WHERE id = ?", array($_GET["id"]));
 $user = $result->fetch_assoc();
+
+// deny access to other profiles for users without admin rights
+if (empty($user) || ($_SESSION["user_id"] != $_GET["id"] && !$loggedUser["is_admin"])) {
+    header("location: index.php");
+    exit();
+}
 
 ?>
 <div class="profile-info">
