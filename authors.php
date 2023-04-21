@@ -16,7 +16,10 @@ if (isset($_GET["id"])) {
     $imagePath = getFilePath("images/authors/", $author["image_file_name"], "images/blank_author.jpg");
 
     echo <<< AUTHORINFO
-        <h3>Authors &nbsp > &nbsp $author[first_name] $author[last_name]</h3>
+        <h3>Authors &nbsp > &nbsp
+            <span id="author-first-name">$author[first_name]</span>
+            <span id="author-last-name">$author[last_name]</span>
+        </h3>
         <div class="author-info">
             <img src=$imagePath alt="author photo" width="100">
             <p>$author[description]</p>
@@ -37,8 +40,17 @@ if (isset($_GET["id"])) {
                     <input type="hidden" name="author_id" value="$author[id]">
                     <button type="submit">Delete author</button>
                 </form>
+                <form action="scripts/updateauthor.php" method="post" id="update-form" onsubmit="return false">
+                    <input type="hidden" name="author_id" value="$author[id]">
+                    <button type="button" id="update-author-btn">Edit author</button>
+                </form>
             </div>
         AUTHORINFO;
+
+        if (isset($_SESSION["err"])) {
+            echo $_SESSION["err"];
+            unset($_SESSION["err"]);
+        }
     }
 
     echo "<h3>Books:</h3>";
@@ -59,6 +71,8 @@ if (isset($_GET["id"])) {
             </div>
         BOOK;
     }
+
+    echo "<script src='js/updateAuthor.js'></script>";
 } else {
     echo <<< AUTHORHEADER
         <h3>Authors</h3>
