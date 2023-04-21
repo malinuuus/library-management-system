@@ -17,15 +17,37 @@ if (isset($_POST["book_id"])) {
     $db = new Database("library_db");
 
     $result = $db->getResult(
-        "SELECT COUNT(IF(is_available = 1, 1, NULL)) AS num_copies FROM books b LEFT JOIN copies c on b.id = c.book_id WHERE b.id = ?",
+        "SELECT COUNT(IF(is_available = 0, 1, NULL)) AS num_copies FROM books b LEFT JOIN copies c on b.id = c.book_id WHERE b.id = ?",
         array($_SESSION["updatingBookId"])
     );
-    $availableCopiesCount = $result->fetch_assoc()["num_copies"];
+    $borrowedCopiesCount = $result->fetch_assoc()["num_copies"];
+    $copiesCount = $_POST["num_copies"];
 
-    if ($_POST["num_copies"] < $availableCopiesCount) {
-        $_SESSION["err"] = "Number of copies must be equal or larger than the number of available copies!";
+    $result = $db->getResult("SELECT COUNT(*) AS count FROM books b INNER JOIN copies c on b.id = c.book_id WHERE b.id = ?", array($_SESSION["updatingBookId"]));
+    $allCopiesCount = $result->fetch_assoc()["count"];
+
+    if ($copiesCount < $borrowedCopiesCount) {
+        $_SESSION["err"] = "Number of copies must be equal or larger than the number of borrowed copies!";
         echo "<script>history.back()</script>";
         exit();
+    } else if ($copiesCount < $allCopiesCount) {
+        // delete available copies
+        $db->getResult("DELETE FROM copies WHERE is_available = 1 LIMIT ?", array($allCopiesCount - $copiesCount));
+
+        if (!$db->checkAffectedRows($allCopiesCount - $copiesCount)) {
+            $_SESSION["err"] = "Error occurred while deleting copies of the book!";
+            echo "<script>history.back()</script>";
+        }
+    } else if ($copiesCount > $allCopiesCount) {
+        // add copies
+        for ($i = 0; $i < $copiesCount - $allCopiesCount; $i++) {
+            $db->getResult("INSERT INTO copies (book_id, is_available) VALUES (?, 1)", array($_SESSION["updatingBookId"]));
+        }
+
+        if (!$db->checkAffectedRows($copiesCount - $allCopiesCount)) {
+            $_SESSION["err"] = "Error occurred while adding copies of the book!";
+            echo "<script>history.back()</script>";
+        }
     }
 
     $db->getResult(
