@@ -1,6 +1,7 @@
 const searchBar = document.getElementById('search-bar');
 const booksArray = document.querySelectorAll('.book-row');
 const authorsArray = document.querySelectorAll('.author-info');
+const usersArray = document.querySelectorAll('.user-info');
 
 function filterRows(nodeList, tagName, filterColumns) {
     nodeList.forEach(item => {
@@ -24,5 +25,7 @@ searchBar.addEventListener('keyup', () => {
         filterRows(booksArray, 'td', ['title', 'author', 'category']);
     } else if (authorsArray.length !== 0) {
         filterRows(authorsArray, 'h4', ['name']);
+    } else if (usersArray.length !== 0) {
+        filterRows(usersArray, 'td', ['first-name', 'last-name'])
     }
 })

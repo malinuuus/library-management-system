@@ -12,7 +12,7 @@ $result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESS
 $user = $result->fetch_assoc();
 
 if ($user["is_admin"]) {
-    $query = "SELECT CONCAT(u.first_name, ' ' ,u.last_name) AS user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') AS reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') AS due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) AS author, r.id, c.id AS copy_id, r.due_date < NOW() AS is_after_duedate FROM reservations r
+    $query = "SELECT u.id AS user_id, CONCAT(u.first_name, ' ' ,u.last_name) AS user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') AS reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') AS due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) AS author, r.id, c.id AS copy_id, r.due_date < NOW() AS is_after_duedate FROM reservations r
               INNER JOIN users u on r.user_id = u.id
               INNER JOIN copies c on r.copy_id = c.id
               INNER JOIN books b on c.book_id = b.id
@@ -37,7 +37,8 @@ while ($res = $result->fetch_assoc()) {
     echo "<div class='notification'>";
 
     if ($user["is_admin"]) {
-        echo $res["is_after_duedate"] ? "<p>$res[user] hasn't returned the book yet!</p>" : "<p>$res[user] borrowed a book on $res[reservation_date]</p>";
+        $userLink = "<a href='index.php?page=userProfile&id=$res[user_id]'>$res[user]</a>";
+        echo $res["is_after_duedate"] ? "<p>$userLink hasn't returned the book yet!</p>" : "<p>$userLink borrowed a book on $res[reservation_date]</p>";
     } else {
         echo $res["is_after_duedate"] ? "<p>You haven't returned the book yet!</p>" : "<p>You borrowed a book on $res[reservation_date]</p>";
     }
