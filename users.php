@@ -36,4 +36,4 @@
         ?>
     </table>
 </div>
-<script src="js/filter_data.js"></script>
+<script src="js/filterData.js"></script>

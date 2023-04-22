@@ -98,7 +98,7 @@ if (isset($_GET["id"])) {
         AUTHOR;
     }
 
-    echo "<script src='js/filter_data.js'></script>";
+    echo "<script src='js/filterData.js'></script>";
 }
 
 $db->close();

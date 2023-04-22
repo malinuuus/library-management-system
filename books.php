@@ -87,4 +87,4 @@ if (isset($_SESSION["err"])) {
     unset($_SESSION["err"]);
 }
 ?>
-<script src="js/filter_data.js"></script>
+<script src="js/filterData.js"></script>
