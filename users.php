@@ -8,8 +8,9 @@
     while ($user = $result->fetch_assoc()) {
         $admin = $user["is_admin"] ? "admin" : "";
         echo <<< USER
-            <tr class="user-info">
-                <td><a href="index.php?page=userProfile&id=$user[id]">$user[first_name] $user[last_name]</a></td>
+            <tr class="user-info" onclick="window.location='index.php?page=userProfile&id=$user[id]'">
+                <td>$user[first_name]</td>
+                <td>$user[last_name]</td>
                 <td>$admin</td>
             </tr>
         USER;
