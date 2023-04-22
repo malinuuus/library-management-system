@@ -17,7 +17,7 @@
             <form action="scripts/authenticate.php" method="post">
                 <input type="text" name="email" placeholder="Email">
                 <input type="password" name="password" placeholder="Password">
-                <input type="submit" value="Login">
+                <button type="submit">Login</button>
                 <?php
                 session_start();
                 if (isset($_SESSION["err"])) {

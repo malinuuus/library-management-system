@@ -28,13 +28,19 @@ body, html {
     min-height: 150px;
 }
 
-.wrapper input {
+.wrapper input,
+.wrapper button {
     padding: 10px;
     border: none;
 }
 
-.wrapper input[type=submit] {
+.wrapper input {
+    border-bottom: 1px solid gray;
+}
+
+.wrapper button {
     background: var(--bg-gradient);
     color: #fff;
     border-radius: 20px;
+    cursor: pointer;
 }
