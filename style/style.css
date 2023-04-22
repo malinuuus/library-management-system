@@ -1,0 +1,7 @@
+:root {
+    --bg-gradient: linear-gradient(62deg, rgba(192,0,255,1) 0%, rgba(0,212,255,1) 100%);
+}
+
+body {
+    font-family: "Segoe UI", serif;
+}

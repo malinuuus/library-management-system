@@ -1,0 +1,40 @@
+body, html {
+    margin: 0;
+}
+
+.content {
+    background: var(--bg-gradient);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: white;
+    padding: 70px 30px;
+    border-radius: 20px;
+    height: fit-content;
+}
+
+.wrapper form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 300px;
+    min-height: 150px;
+}
+
+.wrapper input {
+    padding: 10px;
+    border: none;
+}
+
+.wrapper input[type=submit] {
+    background: var(--bg-gradient);
+    color: #fff;
+    border-radius: 20px;
+}
