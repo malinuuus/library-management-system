@@ -24,15 +24,13 @@ if (!isset($_SESSION["user_id"])) {
         <div>
             <a href="index.php?page=userProfile&id=<?php echo $_SESSION["user_id"] ?>">
                 <?php
-                if (isset($_SESSION["user_id"])) {
-                    require_once "classes/Database.php";
-                    $db = new Database("library_db");
-                    $result = $db->getResult("SELECT first_name, last_name FROM users WHERE id = ?", array($_SESSION["user_id"]));
-                    $user = $result->fetch_assoc();
-                    $db->close();
+                require_once "classes/Database.php";
+                $db = new Database("library_db");
+                $result = $db->getResult("SELECT first_name, last_name, is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
+                $user = $result->fetch_assoc();
+                $db->close();
 
-                    echo "$user[first_name] $user[last_name]";
-                }
+                echo "$user[first_name] $user[last_name]";
                 ?>
             </a>
             <a href="scripts/logout.php">log out</a>
@@ -44,6 +42,11 @@ if (!isset($_SESSION["user_id"])) {
             <li><a href="index.php?page=books">Books</a></li>
             <li><a href="index.php?page=authors">Authors</a></li>
             <li><a href="index.php?page=categories">Categories</a></li>
+            <?php
+            if ($user["is_admin"]) {
+                echo "<li><a href='index.php?page=users'>Users</a></li>";
+            }
+            ?>
         </ul>
     </div>
     <div class="content">
@@ -58,6 +61,8 @@ if (!isset($_SESSION["user_id"])) {
                 require_once "dashboard.php";
             } else if ($_GET["page"] == "userProfile") {
                 require_once "userprofile.php";
+            } else if ($_GET["page"] == "users") {
+                require_once "users.php";
             }
         } else {
             require_once "dashboard.php";
