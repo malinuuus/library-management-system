@@ -8,7 +8,7 @@ $db = new Database("library_db");
 $result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
 $loggedUser = $result->fetch_assoc();
 
-$result = $db->getResult("SELECT first_name, last_name, email, is_admin FROM users WHERE id = ?", array($_GET["id"]));
+$result = $db->getResult("SELECT * FROM users WHERE id = ?", array($_GET["id"]));
 $user = $result->fetch_assoc();
 
 // deny access to other profiles for users without admin rights
@@ -35,6 +35,17 @@ if ($_SESSION["user_id"] == $_GET["id"]) {
         <label for="email">Email</label>
         <input type="text" name="email" id="email" value="<?php echo $user["email"] ?>" disabled>
 
+        <?php
+        if ($loggedUser["is_admin"]) {
+            echo <<< PASSWORDINPUT
+                <label for="password1">New password</label>
+                <input type="password" name="new_password1" id="password1" disabled>
+
+                <label for="password2">Repeat new password</label>
+                <input type="password" name="new_password2" id="password2" disabled>
+            PASSWORDINPUT;
+        }
+        ?>
         <label for="admin-rights">Admin rights</label>
         <input type="checkbox" name="admin_rights" id="admin-rights" <?php echo $user["is_admin"] ? "checked" : "" ?> disabled>
     </div>
