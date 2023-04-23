@@ -3,6 +3,11 @@
     --text-color: #707070;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+}
+
 html {
     height: 100%;
 }
@@ -10,10 +15,13 @@ html {
 body {
     font-family: "Segoe UI", serif;
     color: var(--text-color);
-    margin: 0;
     height: 100%;
 }
 
 a {
     text-decoration: none;
+}
+
+h3 {
+    margin: 20px 0;
 }
