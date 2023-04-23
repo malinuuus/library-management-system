@@ -1,10 +1,10 @@
 <h3>Users list</h3>
 <div class="users">
-    <div>
-        <label class="search-bar-label" for="search-bar">🔍</label>
+    <div class="search-bar">
+        <label for="search-bar">🔍</label>
         <input type="text" id="search-bar" placeholder="Search...">
     </div>
-    <table class="users-table">
+    <table class="table users-table">
         <tr>
             <th>First name</th>
             <th>Last name</th>

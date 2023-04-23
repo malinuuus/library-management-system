@@ -24,17 +24,6 @@
     border-radius: 15px;
 }
 
-.books-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.books-table th, .books-table td {
-    padding: 10px;
-    text-align: center;
-}
-
 .books-table .book-row-img {
     padding: 0;
     text-align: left;
@@ -42,15 +31,6 @@
 
 .book-row-img img {
     width: 100px;
-}
-
-.books-table tr:first-child {
-    background: var(--bg-gradient);
-    color: #fff;
-}
-
-.books-table tr:nth-child(even) {
-    background: #f2f2f2;
 }
 
 .update-btn {

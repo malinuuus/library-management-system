@@ -19,7 +19,7 @@
     }
     ?>
 </div>
-<table class="books-table">
+<table class="table books-table">
     <tr>
         <th></th>
         <th>title</th>
