@@ -55,23 +55,23 @@ while ($book = $result->fetch_assoc()) {
                 <td class="book-row-buttons">
                     <form action="scripts/updatebook.php" method="post">
                         <input type="hidden" name="book_id" value="$book[id]">
-                        <button type="submit" name="submit" value="1" class="update-btn">Update</button>
+                        <button type="submit" name="submit" value="1" class="btn update-btn">Update</button>
                     </form>
                     <form action="scripts/deletebook.php" method="post">
                         <input type="hidden" name="book_id" value="$book[id]">
-                        <button type="submit" class="delete-btn">Delete</button>
+                        <button type="submit" class="btn delete-btn">Delete</button>
                     </form>
                 </td>
             </tr>
         DELETEFORM;
     } else if ($book["num_copies"] == 0) {
-        echo "<td><button disabled>Reserve</button></td></tr>";
+        echo "<td><button disabled class='btn reserve-btn'>Reserve</button></td></tr>";
     } else {
         echo <<< RESERVEFORM
                 <td>
                     <form action="scripts/reservebook.php" method="post">
                         <input type="hidden" name="book_id" value="$book[id]">
-                        <button type="submit">Reserve</button>
+                        <button type="submit" class="btn active reserve-btn">Reserve</button>
                     </form>
                 </td>
             </tr>

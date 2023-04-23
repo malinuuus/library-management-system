@@ -33,7 +33,8 @@
     width: 100px;
 }
 
-.update-btn {
+.update-btn,
+.reserve-btn {
     background: #cdffd5;
 }
 
@@ -41,15 +42,13 @@
     background: #ffcdcd;
 }
 
-.update-btn,
-.delete-btn {
+.btn {
     border: none;
     width: 90px;
     padding: 10px 0;
     cursor: pointer;
 }
 
-.update-btn:hover,
-.delete-btn:hover {
+.btn.active:hover {
     color: var(--text-color);
 }
