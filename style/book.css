@@ -1,0 +1,45 @@
+.wrapper {
+    width: 400px;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper form div {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+.wrapper form input,
+.wrapper form select {
+    border: none;
+    padding: 10px;
+    border-bottom: 1px solid var(--text-color);
+    width: 250px;
+}
+
+.wrapper form button {
+    background: var(--bg-gradient);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.wrapper a {
+    border: 1px solid var(--text-color);
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.wrapper form button,
+.wrapper form a {
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 20px;
+    font-size: 14px;
+}
