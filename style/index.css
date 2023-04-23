@@ -44,6 +44,24 @@
     color: var(--text-color);
 }
 
+.side-bar a:hover {
+    border-bottom: 1px solid var(--text-color);
+}
+
 .content {
     padding: var(--padding) 0 0 var(--padding);
+}
+
+.account-link {
+    padding-right: 10px;
+    border-right: 1px solid #fff;
+}
+
+.log-out-link {
+    padding-left: 10px;
+}
+
+.account-link:hover,
+.log-out-link:hover {
+    color: #dcdcdc;
 }

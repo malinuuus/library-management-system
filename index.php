@@ -24,7 +24,7 @@ if (!isset($_SESSION["user_id"])) {
     <nav class="main-nav">
         <h1>Library Management System</h1>
         <div>
-            <a href="index.php?page=userProfile&id=<?php echo $_SESSION["user_id"] ?>">
+            <a href="index.php?page=userProfile&id=<?php echo $_SESSION["user_id"] ?>" class="account-link">
                 <?php
                 require_once "classes/Database.php";
                 $db = new Database("library_db");
@@ -35,7 +35,7 @@ if (!isset($_SESSION["user_id"])) {
                 echo "$user[first_name] $user[last_name]";
                 ?>
             </a>
-            <a href="scripts/logout.php">log out</a>
+            <a href="scripts/logout.php" class="log-out-link">log out</a>
         </div>
     </nav>
     <div class="wrapper">
