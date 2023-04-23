@@ -37,17 +37,20 @@ if ($_SESSION["user_id"] == $_GET["id"]) {
 
         <?php
         if ($loggedUser["is_admin"]) {
+            $isChecked = $user["is_admin"] ? "checked" : "";
+
             echo <<< PASSWORDINPUT
                 <label for="password1">New password</label>
                 <input type="password" name="new_password1" id="password1" disabled>
 
                 <label for="password2">Repeat new password</label>
                 <input type="password" name="new_password2" id="password2" disabled>
+
+                <label for="admin-rights">Admin rights</label>
+                <input type="checkbox" name="admin_rights" id="admin-rights" $isChecked disabled>
             PASSWORDINPUT;
         }
         ?>
-        <label for="admin-rights">Admin rights</label>
-        <input type="checkbox" name="admin_rights" id="admin-rights" <?php echo $user["is_admin"] ? "checked" : "" ?> disabled>
     </div>
     <div class="profile-buttons">
         <button type="button" id="profile-edit-btn">Edit</button>
