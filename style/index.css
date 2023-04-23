@@ -49,7 +49,8 @@
 }
 
 .content {
-    padding: var(--padding) 0 0 var(--padding);
+    padding: var(--padding);
+    flex: 1 0 auto;
 }
 
 .account-link {
