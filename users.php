@@ -19,7 +19,7 @@
 
         while ($user = $result->fetch_assoc()) {
             $admin = $user["is_admin"] ? "admin" : "";
-            $booksCountResult = $db->getResult("SELECT COUNT(r.id) AS count FROM users u JOIN reservations r on u.id = r.user_id WHERE u.id = $user[id]");
+            $booksCountResult = $db->getResult("SELECT COUNT(r.id) AS count FROM users u INNER JOIN reservations r on u.id = r.user_id WHERE u.id = $user[id] AND r.return_date IS NULL");
             $booksCount = $booksCountResult->fetch_assoc()["count"];
 
             echo <<< USER
