@@ -1,0 +1,21 @@
+.profile-info > div {
+    margin-bottom: 10px;
+}
+
+.profile-info label {
+    display: inline-block;
+    width: 200px;
+
+}
+
+.profile-info input {
+    border: none;
+    padding: 10px;
+    border-bottom: 1px solid var(--text-color);
+    width: 250px;
+}
+
+#admin-rights {
+    width: 20px;
+    height: 20px;
+}
