@@ -40,3 +40,26 @@ h3 > input {
     font-family: inherit;
     color: inherit;
 }
+
+.book-info {
+    border: 1px solid var(--text-color);
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+.book-info img {
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px 0 0 20px;
+}
+
+.book-info div {
+    padding: 0 20px;
+}
+
+.book-info .category {
+    font-size: 12px;
+}

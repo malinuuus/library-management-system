@@ -53,7 +53,7 @@ if (isset($_GET["id"])) {
 
     echo "<h3>Books:</h3>";
 
-    $result = $db->getResult("SELECT * FROM books b INNER JOIN authors a on b.author_id = a.id WHERE a.id = ?", array($_GET["id"]));
+    $result = $db->getResult("SELECT b.title, b.cover_file_name, c.category FROM books b INNER JOIN authors a ON b.author_id = a.id INNER JOIN categories c on b.category_id = c.id WHERE a.id = ?", array($_GET["id"]));
 
     while ($book = $result->fetch_assoc()) {
         $imagePath = "images/books/$book[cover_file_name]";
@@ -64,8 +64,11 @@ if (isset($_GET["id"])) {
 
         echo <<< BOOK
             <div class="book-info">
-                <img src=$imagePath alt="book cover" width="100">
-                <p>$book[title]</p>
+                <img src=$imagePath alt="book cover">
+                <div>
+                    <p>$book[title]</p>
+                    <p class="category">$book[category]</p>
+                </div>
             </div>
         BOOK;
     }
