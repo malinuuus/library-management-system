@@ -1,7 +1,19 @@
 :root {
     --bg-gradient: linear-gradient(62deg, rgba(192,0,255,1) 0%, rgba(0,212,255,1) 100%);
+    --text-color: #707070;
+}
+
+html {
+    height: 100%;
 }
 
 body {
     font-family: "Segoe UI", serif;
+    color: var(--text-color);
+    margin: 0;
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
 }
