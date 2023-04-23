@@ -17,6 +17,7 @@ if (!isset($_SESSION["user_id"])) {
     <link rel="stylesheet" href="style/dashboard.css">
     <link rel="stylesheet" href="style/books.css">
     <link rel="stylesheet" href="style/userprofile.css">
+    <link rel="stylesheet" href="style/authors.css">
     <title>
         <?php
         echo isset($_GET["page"]) ? ucfirst($_GET["page"]) : "Dashboard";

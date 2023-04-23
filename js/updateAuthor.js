@@ -1,11 +1,12 @@
 const updateBtn = document.getElementById("update-author-btn");
-const authorBio = document.querySelector('.author-info').querySelector('p');
+const authorBio = document.querySelector('.author-bio');
 const updateForm = document.getElementById('update-form');
 
 const firstName = document.getElementById('author-first-name');
 const lastName = document.getElementById('author-last-name');
 
 const textArea = document.createElement('textarea');
+textArea.setAttribute('class', 'textarea-bio')
 textArea.value = authorBio.innerText;
 
 const firstNameInput = document.createElement('input');

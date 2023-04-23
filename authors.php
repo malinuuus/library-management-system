@@ -20,10 +20,8 @@ if (isset($_GET["id"])) {
             <span id="author-first-name">$author[first_name]</span>
             <span id="author-last-name">$author[last_name]</span>
         </h3>
-        <div class="author-info">
-            <img src=$imagePath alt="author photo" width="100">
-            <p>$author[description]</p>
-        </div>
+        <img class="author-image" src=$imagePath alt="author photo">
+        <p class="author-bio">$author[description]</p>
     AUTHORINFO;
 
     if (session_status() === PHP_SESSION_NONE) {
@@ -76,9 +74,9 @@ if (isset($_GET["id"])) {
 } else {
     echo <<< AUTHORHEADER
         <h3>Authors</h3>
-        <div>
-            <label class="search-bar-label" for="search-bar">🔍</label>
-            <input type="text" id="search-bar">
+        <div class="search-bar">
+            <label for="search-bar">🔍</label>
+            <input type="text" id="search-bar" placeholder="Search...">
         </div>
     AUTHORHEADER;
 
@@ -89,7 +87,7 @@ if (isset($_GET["id"])) {
 
         echo <<< AUTHOR
             <div class="author-info">
-                <img src=$imagePath alt="author photo" width="100">
+                <img src=$imagePath alt="author photo">
                 <a href="index.php?page=authors&id=$author[id]">
                     <h4 class="author-name">$author[first_name] $author[last_name]</h4>
                     <p class="author-description">$author[description]...</p>
