@@ -1,8 +1,8 @@
 <h3>Books</h3>
-<div>
-    <div>
+<div class="books-header">
+    <div class="search-bar">
         <label class="search-bar-label" for="search-bar">🔍</label>
-        <input type="text" id="search-bar">
+        <input type="text" id="search-bar" placeholder="Search...">
     </div>
     <?php
     if (session_status() === PHP_SESSION_NONE) {
@@ -26,6 +26,7 @@
         <th>author</th>
         <th>category</th>
         <th>No. of available copies</th>
+        <th></th>
     </tr>
 <?php
 $query = "SELECT * FROM (SELECT b.id, b.title, b.cover_file_name, a.id as author_id, a.first_name, a.last_name, c.category, COUNT(CASE is_available WHEN 1 THEN 1 ELSE NULL END) as num_copies
@@ -42,7 +43,7 @@ while ($book = $result->fetch_assoc()) {
 
     echo <<< BOOKROW
         <tr class="book-row">
-            <td class="book-row-img"><img src=$imagePath alt="book cover" width="100"></td>
+            <td class="book-row-img"><img src=$imagePath alt="book cover"></td>
             <td class="book-row-title">$book[title]</td>
             <td class="book-row-author"><a href="index.php?page=authors&id=$book[author_id]">$book[first_name] $book[last_name]</a></td>
             <td class="book-row-category">$book[category]</td>
@@ -51,14 +52,14 @@ while ($book = $result->fetch_assoc()) {
 
     if ($user["is_admin"]) {
         echo <<< DELETEFORM
-                <td>
+                <td class="book-row-buttons">
                     <form action="scripts/updatebook.php" method="post">
                         <input type="hidden" name="book_id" value="$book[id]">
-                        <button type="submit" name="submit" value="1">Update</button>
+                        <button type="submit" name="submit" value="1" class="update-btn">Update</button>
                     </form>
                     <form action="scripts/deletebook.php" method="post">
                         <input type="hidden" name="book_id" value="$book[id]">
-                        <button type="submit">Delete</button>
+                        <button type="submit" class="delete-btn">Delete</button>
                     </form>
                 </td>
             </tr>
