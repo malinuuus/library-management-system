@@ -50,7 +50,7 @@ while ($res = $result->fetch_assoc()) {
             <div class="notification-content">
                 <img src=$imagePath alt="book cover">
                 <div class="notification-info">
-                    <p>$res[title]</p>
+                    <p class="title">$res[title]</p>
                     <p>by $res[author]</p>
     NOTIFICATION;
 

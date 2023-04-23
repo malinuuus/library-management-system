@@ -14,6 +14,7 @@ if (!isset($_SESSION["user_id"])) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/index.css">
+    <link rel="stylesheet" href="style/dashboard.css">
     <title>
         <?php
         echo isset($_GET["page"]) ? ucfirst($_GET["page"]) : "Dashboard";

@@ -1,0 +1,52 @@
+.notification {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.notification:last-child {
+    margin-bottom: 0;
+}
+
+.notification > p {
+    margin-bottom: 5px;
+}
+
+.notification-content {
+    border: 1px solid var(--text-color);
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    height: 150px;
+}
+
+.notification-content img {
+    height: 100%;
+    width: auto;
+    border-radius: 20px 0 0 20px;
+}
+
+.notification-info {
+    padding: 0 var(--padding);
+}
+
+.notification-info :not(.title) {
+    font-size: 12px;
+}
+
+.notification-content form {
+    margin-left: auto;
+    padding: 0 var(--padding);
+}
+
+.notification-content form button {
+    background: var(--bg-gradient);
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+.notification-content form button:hover {
+    color: #dcdcdc;
+}
