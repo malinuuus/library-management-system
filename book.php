@@ -30,6 +30,8 @@ if (!$user["is_admin"]) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/book.css">
     <title>Add a book</title>
 </head>
 <body>
@@ -58,11 +60,11 @@ if (!$user["is_admin"]) {
 
         echo "<h3>$pageTitle</h3>";
         echo "<form action='$actionPath' method='post' enctype='multipart/form-data'>";
-        echo "<input type='text' name='title' placeholder='Title' value='$updatedTitle'>";
+        echo "<div><input type='text' name='title' placeholder='Title' value='$updatedTitle'></div>";
         ?>
-        <label>
-            Author
-            <select name="author_id">
+        <div>
+            <label for="author">Author</label>
+            <select name="author_id" id="author">
                 <?php
                 $result = $db->getResult("SELECT id, first_name, last_name FROM authors");
 
@@ -75,10 +77,10 @@ if (!$user["is_admin"]) {
                 }
                 ?>
             </select>
-        </label>
-        <label>
-            Category
-            <select name="category_id">
+        </div>
+        <div>
+            <label for="category">Category</label>
+            <select name="category_id" id="category">
                 <?php
                 $result = $db->getResult("SELECT * FROM categories");
 
@@ -93,12 +95,14 @@ if (!$user["is_admin"]) {
                 $db->close();
                 ?>
             </select>
-        </label>
+        </div>
         <?php
-        echo "<input type='number' name='num_copies' placeholder='Number of copies' value='$updatedNumOfCopies'>";
+        echo "<div><input type='number' name='num_copies' placeholder='Number of copies' value='$updatedNumOfCopies'></div>";
         ?>
-        <label for="image">Image: </label>
-        <input type="file" name="image" id="image" accept="image/*">
+        <div>
+            <label for="image">Image: </label>
+            <input type="file" name="image" id="image" accept="image/*">
+        </div>
         <?php
         if (isset($_SESSION["updatingBookId"])) {
             echo "<button type='submit'>Update</button>";
@@ -111,6 +115,7 @@ if (!$user["is_admin"]) {
             unset($_SESSION["err"]);
         }
         ?>
+        <a href="index.php?page=books">Cancel</a>
         </form>
     </div>
 </body>

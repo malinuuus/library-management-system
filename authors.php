@@ -20,10 +20,8 @@ if (isset($_GET["id"])) {
             <span id="author-first-name">$author[first_name]</span>
             <span id="author-last-name">$author[last_name]</span>
         </h3>
-        <div class="author-info">
-            <img src=$imagePath alt="author photo" width="100">
-            <p>$author[description]</p>
-        </div>
+        <img class="author-image" src=$imagePath alt="author photo">
+        <p class="author-bio">$author[description]</p>
     AUTHORINFO;
 
     if (session_status() === PHP_SESSION_NONE) {
@@ -55,7 +53,7 @@ if (isset($_GET["id"])) {
 
     echo "<h3>Books:</h3>";
 
-    $result = $db->getResult("SELECT * FROM books b INNER JOIN authors a on b.author_id = a.id WHERE a.id = ?", array($_GET["id"]));
+    $result = $db->getResult("SELECT b.title, b.cover_file_name, c.category FROM books b INNER JOIN authors a ON b.author_id = a.id INNER JOIN categories c on b.category_id = c.id WHERE a.id = ?", array($_GET["id"]));
 
     while ($book = $result->fetch_assoc()) {
         $imagePath = "images/books/$book[cover_file_name]";
@@ -66,8 +64,11 @@ if (isset($_GET["id"])) {
 
         echo <<< BOOK
             <div class="book-info">
-                <img src=$imagePath alt="book cover" width="100">
-                <p>$book[title]</p>
+                <img src=$imagePath alt="book cover">
+                <div>
+                    <p>$book[title]</p>
+                    <p class="category">$book[category]</p>
+                </div>
             </div>
         BOOK;
     }
@@ -76,9 +77,9 @@ if (isset($_GET["id"])) {
 } else {
     echo <<< AUTHORHEADER
         <h3>Authors</h3>
-        <div>
-            <label class="search-bar-label" for="search-bar">🔍</label>
-            <input type="text" id="search-bar">
+        <div class="search-bar">
+            <label for="search-bar">🔍</label>
+            <input type="text" id="search-bar" placeholder="Search...">
         </div>
     AUTHORHEADER;
 
@@ -89,7 +90,7 @@ if (isset($_GET["id"])) {
 
         echo <<< AUTHOR
             <div class="author-info">
-                <img src=$imagePath alt="author photo" width="100">
+                <img src=$imagePath alt="author photo">
                 <a href="index.php?page=authors&id=$author[id]">
                     <h4 class="author-name">$author[first_name] $author[last_name]</h4>
                     <p class="author-description">$author[description]...</p>

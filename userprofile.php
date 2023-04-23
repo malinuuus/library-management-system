@@ -26,28 +26,39 @@ if ($_SESSION["user_id"] == $_GET["id"]) {
 <form action="scripts/updateuser.php" method="post">
     <input type="hidden" name="user_id" value="<?php echo $_GET["id"] ?>">
     <div class="profile-info">
-        <label for="first-name">First name</label>
-        <input type="text" name="first_name" id="first-name" value="<?php echo $user["first_name"] ?>" disabled>
+        <div>
+            <label for="first-name">First name:</label>
+            <input type="text" name="first_name" id="first-name" value="<?php echo $user["first_name"] ?>" disabled>
+        </div>
 
-        <label for="last-name">Last name</label>
-        <input type="text" name="last_name" id="last-name" value="<?php echo $user["last_name"] ?>" disabled>
+        <div>
+            <label for="last-name">Last name:</label>
+            <input type="text" name="last_name" id="last-name" value="<?php echo $user["last_name"] ?>" disabled>
+        </div>
 
-        <label for="email">Email</label>
-        <input type="text" name="email" id="email" value="<?php echo $user["email"] ?>" disabled>
-
+        <div>
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email" value="<?php echo $user["email"] ?>" disabled>
+        </div>
         <?php
         if ($loggedUser["is_admin"]) {
             $isChecked = $user["is_admin"] ? "checked" : "";
 
             echo <<< PASSWORDINPUT
-                <label for="password1">New password</label>
-                <input type="password" name="new_password1" id="password1" disabled>
+                <div>
+                    <label for="password1">New password:</label>
+                    <input type="password" name="new_password1" id="password1" disabled>
+                </div>
+                
+                <div>
+                    <label for="password2">Repeat new password:</label>
+                    <input type="password" name="new_password2" id="password2" disabled>
+                </div>
 
-                <label for="password2">Repeat new password</label>
-                <input type="password" name="new_password2" id="password2" disabled>
-
-                <label for="admin-rights">Admin rights</label>
-                <input type="checkbox" name="admin_rights" id="admin-rights" $isChecked disabled>
+                <div>
+                    <label for="admin-rights">Admin rights</label>
+                    <input type="checkbox" name="admin_rights" id="admin-rights" $isChecked disabled>
+                </div>
             PASSWORDINPUT;
         }
         ?>

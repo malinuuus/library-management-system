@@ -1,0 +1,47 @@
+:root {
+    --bg-gradient: linear-gradient(62deg, rgba(192,0,255,1) 0%, rgba(0,212,255,1) 100%);
+    --text-color: #707070;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: "Segoe UI", serif;
+    color: var(--text-color);
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+h3 {
+    margin: 20px 0;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    padding: 10px;
+    text-align: center;
+}
+
+.table tr:first-child {
+    background: var(--bg-gradient);
+    color: #fff;
+}
+
+.table tr:nth-child(even) {
+    background: #f2f2f2;
+}

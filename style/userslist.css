@@ -1,0 +1,12 @@
+.user-info {
+    cursor: pointer;
+}
+
+.user-info:hover {
+    background: #cecece;
+    color: #0000EE;
+}
+
+.user-info:nth-child(even):hover {
+    background: #cecece;
+}

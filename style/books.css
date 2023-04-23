@@ -1,0 +1,54 @@
+.books-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.books-header a {
+    background: var(--bg-gradient);
+    color: #fff;
+    padding: 5px 20px;
+    border-radius: 15px;
+}
+
+.books-header a:hover {
+    color: #dcdcdc;
+}
+
+.search-bar label {
+    font-size: 20px;
+}
+
+.search-bar input {
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.books-table .book-row-img {
+    padding: 0;
+    text-align: left;
+}
+
+.book-row-img img {
+    width: 100px;
+}
+
+.update-btn,
+.reserve-btn {
+    background: #cdffd5;
+}
+
+.delete-btn {
+    background: #ffcdcd;
+}
+
+.btn {
+    border: none;
+    width: 90px;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.btn.active:hover {
+    color: var(--text-color);
+}

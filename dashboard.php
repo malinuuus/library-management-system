@@ -12,7 +12,7 @@ $result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESS
 $user = $result->fetch_assoc();
 
 if ($user["is_admin"]) {
-    $query = "SELECT u.id AS user_id, CONCAT(u.first_name, ' ' ,u.last_name) AS user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') AS reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') AS due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) AS author, r.id, c.id AS copy_id, r.due_date < NOW() AS is_after_duedate FROM reservations r
+    $query = "SELECT u.id AS user_id, CONCAT(u.first_name, ' ' ,u.last_name) AS user, DATE_FORMAT(r.reservation_date, '%Y-%m-%d') AS reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') AS due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) AS author, r.id, c.id AS copy_id, r.due_date < NOW() AS is_after_duedate, b.cover_file_name FROM reservations r
               INNER JOIN users u on r.user_id = u.id
               INNER JOIN copies c on r.copy_id = c.id
               INNER JOIN books b on c.book_id = b.id
@@ -22,7 +22,7 @@ if ($user["is_admin"]) {
 
     $result = $db->getResult($query);
 } else {
-    $query = "SELECT DATE_FORMAT(r.reservation_date, '%Y-%m-%d') AS reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') AS due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) AS author, r.due_date < NOW() AS is_after_duedate FROM reservations r
+    $query = "SELECT DATE_FORMAT(r.reservation_date, '%Y-%m-%d') AS reservation_date, DATE_FORMAT(r.due_date, '%Y-%m-%d') AS due_date, b.title, CONCAT(a.first_name, ' ', a.last_name) AS author, r.due_date < NOW() AS is_after_duedate, b.cover_file_name FROM reservations r
               INNER JOIN users u on r.user_id = u.id
               INNER JOIN copies c on r.copy_id = c.id
               INNER JOIN books b on c.book_id = b.id
@@ -43,10 +43,14 @@ while ($res = $result->fetch_assoc()) {
         echo $res["is_after_duedate"] ? "<p>You haven't returned the book yet!</p>" : "<p>You borrowed a book on $res[reservation_date]</p>";
     }
 
+    require_once "scripts/files.php";
+    $imagePath = getFilePath("images/books/", $res["cover_file_name"], "images/blank_book.jpg");
+
     echo <<< NOTIFICATION
             <div class="notification-content">
+                <img src=$imagePath alt="book cover">
                 <div class="notification-info">
-                    <p>$res[title]</p>
+                    <p class="title">$res[title]</p>
                     <p>by $res[author]</p>
     NOTIFICATION;
 
