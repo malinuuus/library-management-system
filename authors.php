@@ -13,7 +13,7 @@ if (isset($_GET["id"])) {
     }
 
     $author = $result->fetch_assoc();
-    $imagePath = getFilePath("images/authors/", $author["image_file_name"], "images/blank_author.jpg");
+    $imagePath = getFile($author["image"], "images/blank_author.jpg");
 
     echo <<< AUTHORINFO
         <h3>Authors &nbsp > &nbsp
@@ -53,18 +53,14 @@ if (isset($_GET["id"])) {
 
     echo "<h3>Books:</h3>";
 
-    $result = $db->getResult("SELECT b.title, b.cover_file_name, c.category FROM books b INNER JOIN authors a ON b.author_id = a.id INNER JOIN categories c on b.category_id = c.id WHERE a.id = ?", array($_GET["id"]));
+    $result = $db->getResult("SELECT b.title, b.image, c.category FROM books b INNER JOIN authors a ON b.author_id = a.id INNER JOIN categories c on b.category_id = c.id WHERE a.id = ?", array($_GET["id"]));
 
     while ($book = $result->fetch_assoc()) {
-        $imagePath = "images/books/$book[cover_file_name]";
-
-        if (!isset($book["cover_file_name"]) || !file_exists($imagePath)) {
-            $imagePath = "images/blank_book.jpg";
-        }
+        $imageData = getFile($book["image"], "images/blank_book.jpg");
 
         echo <<< BOOK
             <div class="book-info">
-                <img src=$imagePath alt="book cover">
+                <img src=$imageData alt="book cover">
                 <div>
                     <p>$book[title]</p>
                     <p class="category">$book[category]</p>
@@ -83,10 +79,10 @@ if (isset($_GET["id"])) {
         </div>
     AUTHORHEADER;
 
-    $result = $db->getResult("SELECT id, first_name, last_name, SUBSTR(description, 1, 300) AS description, image_file_name FROM authors ORDER BY last_name AND first_name");
+    $result = $db->getResult("SELECT id, first_name, last_name, SUBSTR(description, 1, 300) AS description, image FROM authors ORDER BY last_name AND first_name");
 
     while ($author = $result->fetch_assoc()) {
-        $imagePath = getFilePath("images/authors/", $author["image_file_name"], "images/blank_author.jpg");
+        $imagePath = getFile($author["image"], "images/blank_author.jpg");
 
         echo <<< AUTHOR
             <div class="author-info">

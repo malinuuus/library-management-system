@@ -61,6 +61,14 @@ if (isset($_POST["book_id"])) {
         $_SESSION["err"] = "Error occurred while updating the book!";
     }
 
+    require_once "files.php";
+    uploadFile($_SESSION["updatingBookId"], $_FILES["image"]);
+
+    if (isset($_SESSION["err"])) {
+        echo "<script>history.back();</script>";
+        exit();
+    }
+
     unset($_SESSION["updatingBookId"]);
     $db->close();
     header("location: ../index.php?page=books");
