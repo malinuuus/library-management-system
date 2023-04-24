@@ -26,6 +26,10 @@ This project is created with:
 * PHP 8.2.0
 * MySQL 10.4.27-MariaDB
 
+## ER Diagram
+![er-diagram.png](/images/er-diagram.png)</br>
+Generated with [dbdiagram.io](https://dbdiagram.io)
+
 ## Installation
 1. Clone the repository to xampp > htdocs folder.
 2. Create a new database in phpMyAdmin with the name "library_db".
