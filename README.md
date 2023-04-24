@@ -11,11 +11,15 @@ A user can perform the following tasks:
 * Browse books by title, author and category.
 * Reserve a book for borrowing.
 * Browse authors and view their description and list of books.
+* View their profile and edit a name and an email address.
 
 An admin can perform the following tasks:
 * View the list of all borrowed books and their due dates.
 * Mark a borrowed book as returned.
 * Add, edit and delete books.
+* Add (soon), edit and delete authors.
+* View the users list.
+* Edit users' and admins' data on their profile pages.
 
 ## Technologies
 This project is created with:
