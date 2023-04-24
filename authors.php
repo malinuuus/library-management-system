@@ -79,7 +79,7 @@ if (isset($_GET["id"])) {
         </div>
     AUTHORHEADER;
 
-    $result = $db->getResult("SELECT id, first_name, last_name, SUBSTR(description, 1, 300) AS description, image_file_name FROM authors ORDER BY last_name AND first_name");
+    $result = $db->getResult("SELECT id, first_name, last_name, SUBSTR(description, 1, 300) AS description, image FROM authors ORDER BY last_name AND first_name");
 
     while ($author = $result->fetch_assoc()) {
         $imagePath = getFile($author["image"], "images/blank_author.jpg");
