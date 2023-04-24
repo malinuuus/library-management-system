@@ -62,9 +62,8 @@ if (isset($_POST["book_id"])) {
     }
 
     require_once "files.php";
-    uploadFile($_SESSION["updatingBookId"], $_FILES["image"]);
 
-    if (isset($_SESSION["err"])) {
+    if (!uploadFile($_SESSION["updatingBookId"], $_FILES["image"])) {
         echo "<script>history.back();</script>";
         exit();
     }
