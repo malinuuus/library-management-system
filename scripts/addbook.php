@@ -9,20 +9,23 @@ foreach ($_POST as $key => $value) {
     }
 }
 
+require_once "../classes/Database.php";
+$db = new Database("library_db");
+$db->getResult(
+    "INSERT INTO books (title, author_id, category_id) VALUES (?, ?, ?);",
+    array($_POST["title"], $_POST["author_id"], $_POST["category_id"])
+);
+
+$result = $db->getResult("SELECT MAX(id) AS book_id FROM books");
+$bookId = $result->fetch_assoc()["book_id"];
+
 require_once "files.php";
-$fileName = uploadFile($_FILES["image"], "../images/books/");
+uploadFile($bookId, $_FILES["image"]);
 
 if (isset($_SESSION["err"])) {
     echo "<script>history.back();</script>";
     exit();
 }
-
-require_once "../classes/Database.php";
-$db = new Database("library_db");
-$db->getResult(
-    "INSERT INTO books (title, author_id, category_id, cover_file_name) VALUES (?, ?, ?, ?);",
-    array($_POST["title"], $_POST["author_id"], $_POST["category_id"], $fileName)
-);
 
 if ($db->checkAffectedRows(1)) {
     $_SESSION["err"] = "New book has been successfully added!";

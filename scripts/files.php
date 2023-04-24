@@ -1,5 +1,5 @@
 <?php
-function uploadFile($file, $destinationDir) {
+function uploadFile($bookId, $file) {
     if (!file_exists($file["tmp_name"]) || !is_uploaded_file($file["tmp_name"])) {
         return null;
     }
@@ -14,12 +14,10 @@ function uploadFile($file, $destinationDir) {
         return null;
     }
 
-    $id = uniqid();
-    $newFileName = "book$id.$ext";
-    $newFilePath = $destinationDir.$newFileName;
-    move_uploaded_file($tmpName, $newFilePath);
-
-    return $newFileName;
+    $imgContent = addslashes(file_get_contents($tmpName));
+    require_once "../classes/Database.php";
+    $db = new Database("library_db");
+    $db->getResult("UPDATE books SET image = ? WHERE id = ?", array($imgContent, $bookId));
 }
 
 function getFilePath(string $dir, $fileName, string $filePlaceholder = ""): string {
