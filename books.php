@@ -38,7 +38,8 @@ $query = "SELECT * FROM (SELECT b.id, b.title, b.image, a.id as author_id, a.fir
 $result = $db->getResult($query);
 
 while ($book = $result->fetch_assoc()) {
-    $imageData = "data:image/jpeg;base64,".base64_encode($book["image"]);
+    require_once "scripts/files.php";
+    $imageData = getFile($book["image"], "images/blank_book.jpg");
 
     echo <<< BOOKROW
         <tr class="book-row">

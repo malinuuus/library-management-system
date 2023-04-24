@@ -31,10 +31,10 @@ function uploadFile($bookId, $file) {
     $db->close();
 }
 
-function getFilePath(string $dir, $fileName, string $filePlaceholder = ""): string {
-    $filePath = $dir.$fileName;
-
-    if (!isset($fileName) || !file_exists($filePath)) {
+function getFile($file, string $filePlaceholder = ""): string {
+    if (isset($file)) {
+        $filePath = "data:image/jpeg;base64,".base64_encode($file);
+    } else {
         $filePath = $filePlaceholder;
     }
 
