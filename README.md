@@ -25,3 +25,16 @@ An admin can perform the following tasks:
 This project is created with:
 * PHP 8.2.0
 * MySQL 10.4.27-MariaDB
+
+## Installation
+1. Clone the repository to xampp > htdocs folder.
+2. Create a new database in phpMyAdmin with the name "library_db".
+3. Import the database schema located in db_export folder.
+4. Open the application in a web browser (http://localhost/library-management-system).
+5. Login using the following account:
+   * admin:
+     * email: admin@gmail.com
+     * password: admin123
+   * user:
+     * email: user@gmail.com
+     * password: user123
