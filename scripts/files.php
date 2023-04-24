@@ -40,13 +40,3 @@ function getFile($file, string $filePlaceholder = ""): string {
 
     return $filePath;
 }
-
-function deleteFile(string $dir, $fileName): bool {
-    $filePath = $dir.$fileName;
-
-    if (file_exists($filePath)) {
-        unlink($filePath);
-        return true;
-    }
-    return false;
-}
