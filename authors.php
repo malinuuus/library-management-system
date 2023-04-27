@@ -1,27 +1,27 @@
 <?php
 require_once "scripts/files.php";
 require_once "classes/Database.php";
+require_once "classes/Author.php";
 $db = new Database("library_db");
 
 if (isset($_GET["id"])) {
-    $result = $db->getResult("SELECT * FROM authors WHERE id = ?", array($_GET["id"]));
+    $author = new Author($_GET["id"]);
 
-    // checking if author with giver in exists
-    if ($result->num_rows === 0) {
+    // checking if author with given id exists
+    if (!isset($author->id)) {
         header("location: index.php?page=authors");
         exit();
     }
 
-    $author = $result->fetch_assoc();
-    $imagePath = getFile($author["image"], "images/blank_author.jpg");
+    $imagePath = getFile($author->image, "images/blank_author.jpg");
 
     echo <<< AUTHORINFO
         <h3>Authors &nbsp > &nbsp
-            <span id="author-first-name">$author[first_name]</span>
-            <span id="author-last-name">$author[last_name]</span>
+            <span id="author-first-name">$author->firstName</span>
+            <span id="author-last-name">$author->lastName</span>
         </h3>
         <img class="author-image" src=$imagePath alt="author photo">
-        <p class="author-bio">$author[description]</p>
+        <p class="author-bio">$author->description</p>
     AUTHORINFO;
 
     if (session_status() === PHP_SESSION_NONE) {
@@ -35,11 +35,11 @@ if (isset($_GET["id"])) {
         echo <<< AUTHORINFO
             <div class="author-buttons">
                 <form action="scripts/deleteauthor.php" method="post">
-                    <input type="hidden" name="author_id" value="$author[id]">
+                    <input type="hidden" name="author_id" value="$author->id">
                     <button type="submit">Delete author</button>
                 </form>
                 <form action="scripts/updateauthor.php" method="post" id="update-form" onsubmit="return false">
-                    <input type="hidden" name="author_id" value="$author[id]">
+                    <input type="hidden" name="author_id" value="$author->id">
                     <button type="button" id="update-author-btn">Edit author</button>
                 </form>
             </div>
@@ -53,9 +53,7 @@ if (isset($_GET["id"])) {
 
     echo "<h3>Books:</h3>";
 
-    $result = $db->getResult("SELECT b.title, b.image, c.category FROM books b INNER JOIN authors a ON b.author_id = a.id INNER JOIN categories c on b.category_id = c.id WHERE a.id = ?", array($_GET["id"]));
-
-    while ($book = $result->fetch_assoc()) {
+    foreach ($author->get_books() as $book) {
         $imageData = getFile($book["image"], "images/blank_book.jpg");
 
         echo <<< BOOK
@@ -79,20 +77,27 @@ if (isset($_GET["id"])) {
         </div>
     AUTHORHEADER;
 
-    $result = $db->getResult("SELECT id, first_name, last_name, SUBSTR(description, 1, 300) AS description, image FROM authors ORDER BY last_name AND first_name");
+    $result = $db->getResult("SELECT id FROM authors ORDER BY last_name AND first_name");
 
-    while ($author = $result->fetch_assoc()) {
-        $imagePath = getFile($author["image"], "images/blank_author.jpg");
+    while ($authorResult = $result->fetch_assoc()) {
+        $author = new Author($authorResult["id"]);
+        $imagePath = getFile($author->image, "images/blank_author.jpg");
+        $description = $author->get_short_bio(300);
 
         echo <<< AUTHOR
             <div class="author-info">
                 <img src=$imagePath alt="author photo">
-                <a href="index.php?page=authors&id=$author[id]">
-                    <h4 class="author-name">$author[first_name] $author[last_name]</h4>
-                    <p class="author-description">$author[description]...</p>
+                <a href="index.php?page=authors&id=$author->id">
+                    <h4 class="author-name">$author->firstName $author->lastName</h4>
+                    <p class="author-description">$description...</p>
                 </a>
             </div>
         AUTHOR;
+    }
+
+    if (isset($_SESSION["err"])) {
+        echo $_SESSION["err"];
+        unset($_SESSION["err"]);
     }
 
     echo "<script src='js/filterData.js'></script>";
