@@ -91,8 +91,6 @@ if (!$user["is_admin"]) {
                         echo "<option value='$category[id]'>$category[category]</option>";
                     }
                 }
-
-                $db->close();
                 ?>
             </select>
         </div>

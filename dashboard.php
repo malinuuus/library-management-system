@@ -74,5 +74,3 @@ while ($res = $result->fetch_assoc()) {
         echo "</div></div></div>";
     }
 }
-
-$db->close();

@@ -97,5 +97,3 @@ if (isset($_GET["id"])) {
 
     echo "<script src='js/filterData.js'></script>";
 }
-
-$db->close();

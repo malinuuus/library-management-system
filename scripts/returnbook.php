@@ -6,5 +6,4 @@ $db->getResult(
     array($_POST["reservation_id"])
 );
 
-$db->close();
 header("location: ../index.php?page=dashboard");

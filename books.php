@@ -78,8 +78,6 @@ while ($book = $result->fetch_assoc()) {
         RESERVEFORM;
     }
 }
-
-$db->close();
 ?>
 </table>
 <?php

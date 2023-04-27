@@ -23,12 +23,10 @@ function uploadFile($bookId, $file): bool {
     $db->getResult("UPDATE books SET image = ? WHERE id = ?", array($imageData, $bookId));
 
     if (!$db->checkAffectedRows(1)) {
-        $db->close();
         $_SESSION["err"] = "Error occurred while uploading an image!";
         return false;
     }
 
-    $db->close();
     return true;
 }
 

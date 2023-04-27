@@ -31,5 +31,3 @@ if ($result->num_rows == 1) {
     $_SESSION["err"] = "User was not found!";
     header("location: ../login.php");
 }
-
-$db->close();

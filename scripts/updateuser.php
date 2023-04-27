@@ -36,5 +36,4 @@ if ($db->checkAffectedRows(1)) {
     $_SESSION["err"] = "User hasn't been updated!";
 }
 
-$db->close();
 header("location: ../index.php?page=userProfile&id=$_POST[user_id]");

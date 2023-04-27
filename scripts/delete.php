@@ -18,5 +18,4 @@ function deleteItem($itemType, $redirectSubPage) {
     }
 
     header("location: $redirectSubPage");
-    $db->close();
 }

@@ -31,8 +31,6 @@
                 </tr>
             USER;
         }
-
-        $db->close();
         ?>
     </table>
 </div>

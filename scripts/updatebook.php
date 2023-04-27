@@ -69,6 +69,5 @@ if (isset($_POST["book_id"])) {
     }
 
     unset($_SESSION["updatingBookId"]);
-    $db->close();
     header("location: ../index.php?page=books");
 }

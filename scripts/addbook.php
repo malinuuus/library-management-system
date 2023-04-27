@@ -43,5 +43,4 @@ for ($i = 0; $i < $num_copies; $i++) {
     $db->getResult("INSERT INTO copies (book_id, is_available) VALUES (?, 1)", array($book_id));
 }
 
-$db->close();
 header("location: ../index.php?page=books");
