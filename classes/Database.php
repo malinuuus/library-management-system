@@ -1,8 +1,8 @@
 <?php
 
 class Database {
-    private $conn;
-    private $statement;
+    private mysqli $conn;
+    private mysqli_stmt $statement;
 
     public function __construct($database, $hostname = "localhost", $username = "root", $password = "") {
         $this->conn = new mysqli($hostname, $username, $password, $database);
