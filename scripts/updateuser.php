@@ -10,7 +10,7 @@ foreach ($_POST as $key => $value) {
     }
 }
 
-if ($_POST["new_password1"] !== $_POST["new_password2"]) {
+if (!$error && $_POST["new_password1"] !== $_POST["new_password2"]) {
     $_SESSION["err"] = "Passwords are different!";
     $error = true;
 }
@@ -23,14 +23,11 @@ if ($error) {
 $hashedPassword = password_hash($_POST["new_password1"], PASSWORD_DEFAULT);
 $isAdmin = $_POST["admin_rights"] == "on" ? 1 : 0;
 
-require_once "../classes/Database.php";
-$db = new Database("library_db");
-$db->getResult(
-    "UPDATE users SET first_name = ?, last_name = ?, email = ?, password = ?, is_admin = ? WHERE id = ?",
-    array($_POST["first_name"], $_POST["last_name"], $_POST["email"], $hashedPassword, $isAdmin, $_POST["user_id"])
-);
+require_once "../classes/User.php";
+$user = new User($_POST["user_id"]);
+$isUpdated = $user->update($_POST["first_name"], $_POST["last_name"], $_POST["email"], $hashedPassword, $isAdmin);
 
-if ($db->checkAffectedRows(1)) {
+if ($isUpdated) {
     $_SESSION["err"] = "User has been successfully updated";
 } else {
     $_SESSION["err"] = "User hasn't been updated!";

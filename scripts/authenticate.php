@@ -1,10 +1,7 @@
 <?php
-
 session_start();
-$email = $_POST["email"];
-$password = $_POST["password"];
 
-if (empty($email) || empty($password)) {
+if (empty($_POST["email"]) || empty($_POST["password"])) {
     $_SESSION["err"] = "Fill email and password inputs!";
     header("location: ../login.php");
     exit();
@@ -12,15 +9,16 @@ if (empty($email) || empty($password)) {
 
 require_once "../classes/Database.php";
 $db = new Database("library_db");
-$result = $db->getResult("SELECT id, password FROM users WHERE email = ?", array($email));
+$result = $db->getResult("SELECT id FROM users WHERE email = ?", array($_POST["email"]));
+$userId = $result->fetch_assoc()["id"];
 
-if ($result->num_rows == 1) {
-    $user = $result->fetch_assoc();
-    $hashedPassword = $user["password"];
+if (isset($userId)) {
+    require_once "../classes/User.php";
+    $user = new User($userId);
 
-    if (password_verify($password, $hashedPassword)) {
+    if ($user->login($_POST["password"])) {
         // successfully logged in
-        $_SESSION["user_id"] = $user["id"];
+        $_SESSION["user_id"] = $user->id;
         unset($_SESSION["err"]);
         header("location: ../index.php");
     } else {

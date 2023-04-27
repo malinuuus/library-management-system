@@ -28,10 +28,9 @@ if (isset($_GET["id"])) {
         session_start();
     }
 
-    $result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
-    $user = $result->fetch_assoc();
+    $user = new User($_SESSION["user_id"]);
 
-    if ($user["is_admin"]) {
+    if ($user->isAdmin) {
         echo <<< AUTHORINFO
             <div class="author-buttons">
                 <form action="scripts/deleteauthor.php" method="post">

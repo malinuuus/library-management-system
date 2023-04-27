@@ -15,17 +15,17 @@
         <?php
         require_once "classes/Database.php";
         $db = new Database("library_db");
-        $result = $db->getResult("SELECT id, email, first_name, last_name, is_admin FROM users");
+        $result = $db->getResult("SELECT id FROM users");
 
-        while ($user = $result->fetch_assoc()) {
-            $admin = $user["is_admin"] ? "admin" : "";
-            $booksCountResult = $db->getResult("SELECT COUNT(r.id) AS count FROM users u INNER JOIN reservations r on u.id = r.user_id WHERE u.id = $user[id] AND r.return_date IS NULL");
-            $booksCount = $booksCountResult->fetch_assoc()["count"];
+        while ($userResult = $result->fetch_assoc()) {
+            $user = new User($userResult["id"]);
+            $admin = $user->isAdmin ? "admin" : "";
+            $booksCount = $user->borrowed_books_count();
 
             echo <<< USER
-                <tr class="user-info" onclick="window.location='index.php?page=userProfile&id=$user[id]'">
-                    <td class="user-info-first-name">$user[first_name]</td>
-                    <td class="user-info-last-name">$user[last_name]</td>
+                <tr class="user-info" onclick="window.location='index.php?page=userProfile&id=$user->id'">
+                    <td class="user-info-first-name">$user->firstName</td>
+                    <td class="user-info-last-name">$user->lastName</td>
                     <td class="user-info-admin">$admin</td>
                     <td class="user-info-books">$booksCount</td>
                 </tr>

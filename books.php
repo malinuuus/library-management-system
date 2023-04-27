@@ -9,12 +9,10 @@
         session_start();
     }
 
-    require_once "classes/Database.php";
-    $db = new Database("library_db");
-    $result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
-    $user = $result->fetch_assoc();
+    require_once "classes/User.php";
+    $user = new User($_SESSION["user_id"]);
 
-    if ($user["is_admin"]) {
+    if ($user->isAdmin) {
         echo "<a href='book.php?mode=add'>Add a book</a>";
     }
     ?>
@@ -29,6 +27,9 @@
         <th></th>
     </tr>
 <?php
+require_once "classes/Database.php";
+$db = new Database("library_db");
+
 $query = "SELECT * FROM (SELECT b.id, b.title, b.image, a.id as author_id, a.first_name, a.last_name, c.category, COUNT(CASE is_available WHEN 1 THEN 1 ELSE NULL END) as num_copies
           FROM books b
           LEFT JOIN authors a on b.author_id = a.id
@@ -50,7 +51,7 @@ while ($book = $result->fetch_assoc()) {
             <td class="book-row-copies">$book[num_copies]</td>
     BOOKROW;
 
-    if ($user["is_admin"]) {
+    if ($user->isAdmin) {
         echo <<< DELETEFORM
                 <td class="book-row-buttons">
                     <form action="scripts/updatebook.php" method="post">
