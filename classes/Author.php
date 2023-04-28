@@ -38,7 +38,6 @@ class Author extends Person {
     }
 
     public function update($firstName, $lastName, $description): bool {
-        session_start();
         $this->db->getResult("UPDATE authors SET first_name = ?, last_name = ?, description = ? WHERE id = ?", array($firstName, $lastName, $description, $this->id));
         return $this->db->checkAffectedRows(1);
     }
