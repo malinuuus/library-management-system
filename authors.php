@@ -1,7 +1,7 @@
 <?php
-require_once "scripts/files.php";
 require_once "classes/Database.php";
 require_once "classes/Author.php";
+require_once "classes/File.php";
 $db = new Database("library_db");
 
 if (isset($_GET["id"])) {
@@ -13,7 +13,7 @@ if (isset($_GET["id"])) {
         exit();
     }
 
-    $imagePath = getFile($author->image, "images/blank_author.jpg");
+    $imagePath = (new File($author->image))->get_file("images/blank_author.jpg");
 
     echo <<< AUTHORINFO
         <h3>Authors &nbsp > &nbsp
@@ -53,7 +53,7 @@ if (isset($_GET["id"])) {
     echo "<h3>Books:</h3>";
 
     foreach ($author->get_books() as $book) {
-        $imageData = getFile($book["image"], "images/blank_book.jpg");
+        $imageData = (new File($book["image"]))->get_file("images/blank_book.jpg");
 
         echo <<< BOOK
             <div class="book-info">
@@ -80,7 +80,7 @@ if (isset($_GET["id"])) {
 
     while ($authorResult = $result->fetch_assoc()) {
         $author = new Author($authorResult["id"]);
-        $imagePath = getFile($author->image, "images/blank_author.jpg");
+        $imagePath = (new File($author->image))->get_file("images/blank_author.jpg");
         $description = $author->get_short_bio(300);
 
         echo <<< AUTHOR

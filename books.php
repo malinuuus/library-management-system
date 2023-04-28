@@ -27,9 +27,9 @@
         <th></th>
     </tr>
 <?php
-require_once "scripts/files.php";
 require_once "classes/Book.php";
 require_once "classes/Database.php";
+require_once "classes/File.php";
 
 $db = new Database("library_db");
 $result = $db->getResult("SELECT id FROM books ORDER BY title");
@@ -39,7 +39,7 @@ while ($bookResult = $result->fetch_assoc()) {
     $author = $book->get_author();
     $category = $book->get_category();
     $copiesCount = $book->get_available_copies_count();
-    $imageData = getFile($book->image, "images/blank_book.jpg");
+    $imageData = (new File($book->image))->get_file("images/blank_book.jpg");
 
     echo <<< BOOKROW
         <tr class="book-row">

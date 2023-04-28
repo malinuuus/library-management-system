@@ -44,8 +44,8 @@ while ($res = $result->fetch_assoc()) {
         echo $res["is_after_duedate"] ? "<p>You haven't returned the book yet!</p>" : "<p>You borrowed a book on $reservationDate</p>";
     }
 
-    require_once "scripts/files.php";
-    $imagePath = getFile($res["image"], "images/blank_book.jpg");
+    require_once "classes/File.php";
+    $imagePath = (new File($res["image"]))->get_file("images/blank_book.jpg");
 
     echo <<< NOTIFICATION
             <div class="notification-content">
