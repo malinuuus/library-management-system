@@ -2,19 +2,25 @@
 
 class File {
     private $file;
+    private string $filePlaceholder;
 
-    public function __construct($file) {
+    public function __construct($file, $filePlaceholder = "") {
         $this->file = $file;
+        $this->filePlaceholder = $filePlaceholder;
     }
 
-    public function upload_file($bookId, &$message): bool {
-        if (!file_exists($this->file["tmp_name"]) || !is_uploaded_file($this->file["tmp_name"])) {
+    public function upload_file($bookId, &$message, $file = ""): bool {
+        if (empty($file)) {
+            $file = $this->file;
+        }
+
+        if (!file_exists($file["tmp_name"]) || !is_uploaded_file($file["tmp_name"])) {
             return true;
         }
 
-        $fileName = $this->file["name"];
-        $fileSize = $this->file["size"];
-        $tmpName = $this->file["tmp_name"];
+        $fileName = $file["name"];
+        $fileSize = $file["size"];
+        $tmpName = $file["tmp_name"];
         $ext = pathinfo($fileName, PATHINFO_EXTENSION);
 
         if ($fileSize > 2000000) {
@@ -35,15 +41,16 @@ class File {
             return false;
         }
 
+        $this->file = $imageData;
         return true;
     }
 
-    public function get_file(string $filePlaceholder = ""): string
+    public function get_file(): string
     {
         if (isset($this->file)) {
             $filePath = "data:image/jpeg;base64," . base64_encode($this->file);
         } else {
-            $filePath = $filePlaceholder;
+            $filePath = $this->filePlaceholder;
         }
 
         return $filePath;

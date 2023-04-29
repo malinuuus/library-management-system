@@ -1,11 +1,12 @@
 <?php
 require_once "Database.php";
 require_once "Author.php";
+require_once "File.php";
 
 class Book {
     public int $id;
     public string $title;
-    public ?string $image = null;
+    public File $image;
     private Database $db;
 
     public function __construct($id) {
@@ -16,10 +17,7 @@ class Book {
             $book = $result->fetch_assoc();
             $this->id = $id;
             $this->title = $book["title"];
-
-            if (isset($book["image"])) {
-                $this->image = $book["image"];
-            }
+            $this->image = new File($book["image"], "images/blank_book.jpg");
         }
     }
 

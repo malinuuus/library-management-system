@@ -14,7 +14,8 @@ if (isset($_POST["book_id"])) {
     }
 
     require_once "../classes/Book.php";
-    $isUpdated = (new Book($_SESSION["updatingBookId"]))->update($_POST["title"], $_POST["author_id"], $_POST["category_id"], $_POST["num_copies"], $message);
+    $book = new Book($_SESSION["updatingBookId"]);
+    $isUpdated = $book->update($_POST["title"], $_POST["author_id"], $_POST["category_id"], $_POST["num_copies"], $message);
 
     if ($isUpdated) {
         $_SESSION["err"] = "The book has been successfully updated";
@@ -25,9 +26,9 @@ if (isset($_POST["book_id"])) {
     }
 
     require_once "../classes/File.php";
-    $file = new File($_FILES["image"]);
+    $file = $book->image;
 
-    if (!$file->upload_file($_SESSION["updatingBookId"], $message)) {
+    if (!$file->upload_file($_SESSION["updatingBookId"], $message, $_FILES["image"])) {
         $_SESSION["err"] = $message;
         echo "<script>history.back();</script>";
         exit();

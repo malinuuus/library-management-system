@@ -39,7 +39,7 @@ while ($bookResult = $result->fetch_assoc()) {
     $author = $book->get_author();
     $category = $book->get_category();
     $copiesCount = $book->get_available_copies_count();
-    $imageData = (new File($book->image))->get_file("images/blank_book.jpg");
+    $imageData = $book->image->get_file();
 
     echo <<< BOOKROW
         <tr class="book-row">
