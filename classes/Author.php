@@ -1,10 +1,12 @@
 <?php
 require_once "Database.php";
 require_once "Person.php";
+require_once "File.php";
+require_once "Book.php";
 
 class Author extends Person {
     public string $description;
-    public string $image;
+    public File $image;
     private Database $db;
 
     public function __construct($id) {
@@ -17,14 +19,22 @@ class Author extends Person {
             $this->firstName = $author["first_name"];
             $this->lastName = $author["last_name"];
             $this->description = $author["description"];
-            $this->image = $author["image"];
+            $this->image = new File($author["image"], "images/blank_author.jpg");
         }
     }
 
+    /**
+     * @return Book[]
+     */
     public function get_books(): array {
-        $result = $this->db->getResult("SELECT b.title, b.image, c.category FROM books b INNER JOIN authors a ON b.author_id = a.id INNER JOIN categories c on b.category_id = c.id WHERE a.id = ?", array($this->id));
+        $result = $this->db->getResult("SELECT b.id FROM books b INNER JOIN authors a ON b.author_id = a.id INNER JOIN categories c on b.category_id = c.id WHERE a.id = ?", array($this->id));
+        $arr = array();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        while ($bookResult = $result->fetch_assoc()) {
+            array_push($arr, new Book($bookResult["id"]));
+        }
+
+        return $arr;
     }
 
     public function get_short_bio(int $letters): string {

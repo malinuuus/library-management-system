@@ -13,7 +13,7 @@ if (isset($_GET["id"])) {
         exit();
     }
 
-    $imagePath = (new File($author->image))->get_file("images/blank_author.jpg");
+    $imagePath = $author->image->get_file();
 
     echo <<< AUTHORINFO
         <h3>Authors &nbsp > &nbsp
@@ -53,14 +53,15 @@ if (isset($_GET["id"])) {
     echo "<h3>Books:</h3>";
 
     foreach ($author->get_books() as $book) {
-        $imageData = (new File($book["image"]))->get_file("images/blank_book.jpg");
+        $imageData = $book->image->get_file();
+        $category = $book->get_category();
 
         echo <<< BOOK
             <div class="book-info">
                 <img src=$imageData alt="book cover">
                 <div>
-                    <p>$book[title]</p>
-                    <p class="category">$book[category]</p>
+                    <p>$book->title</p>
+                    <p class="category">$category</p>
                 </div>
             </div>
         BOOK;
@@ -80,7 +81,7 @@ if (isset($_GET["id"])) {
 
     while ($authorResult = $result->fetch_assoc()) {
         $author = new Author($authorResult["id"]);
-        $imagePath = (new File($author->image))->get_file("images/blank_author.jpg");
+        $imagePath = $author->image->get_file();
         $description = $author->get_short_bio(300);
 
         echo <<< AUTHOR
