@@ -29,7 +29,7 @@ if (!$user->isAdmin) {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/book.css">
+    <link rel="stylesheet" href="style/addform.css">
     <title>Add a book</title>
 </head>
 <body>
