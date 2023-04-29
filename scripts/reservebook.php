@@ -23,5 +23,4 @@ if ($db->checkAffectedRows(1)) {
     $_SESSION["err"] = "Error with borrowing the book";
 }
 
-$db->close();
 header("location: ../index.php?page=books");

@@ -19,10 +19,12 @@ $db->getResult(
 $result = $db->getResult("SELECT MAX(id) AS book_id FROM books");
 $bookId = $result->fetch_assoc()["book_id"];
 
-require_once "files.php";
-uploadFile($bookId, $_FILES["image"]);
+require_once "../classes/File.php";
+$file = new File($_FILES["image"]);
 
-if (isset($_SESSION["err"])) {
+// todo: deny adding a new book if there are issues with an image
+if (!$file->upload_file($bookId, $message)) {
+    $_SESSION["err"] = $message;
     echo "<script>history.back();</script>";
     exit();
 }
@@ -43,5 +45,4 @@ for ($i = 0; $i < $num_copies; $i++) {
     $db->getResult("INSERT INTO copies (book_id, is_available) VALUES (?, 1)", array($book_id));
 }
 
-$db->close();
 header("location: ../index.php?page=books");

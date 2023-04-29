@@ -9,15 +9,13 @@ foreach ($_POST as $key => $value) {
     }
 }
 
-require_once "../classes/Database.php";
-$db = new Database("library_db");
-$db->getResult("UPDATE authors SET first_name = ?, last_name = ?, description = ? WHERE id = ?", array($_POST["first_name"], $_POST["last_name"], $_POST["description"], $_POST["author_id"]));
+require_once "../classes/Author.php";
+$isUpdated = (new Author($_POST["author_id"]))->update($_POST["first_name"], $_POST["last_name"], $_POST["description"]);
 
-if ($db->checkAffectedRows(1)) {
+if ($isUpdated) {
     $_SESSION["err"] = "Author has been successfully updated";
 } else {
     $_SESSION["err"] = "Author hasn't been updated!";
 }
 
-$db->close();
 header("location: ../index.php?page=authors&id=$_POST[author_id]");

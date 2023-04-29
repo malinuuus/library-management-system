@@ -1,11 +1,18 @@
 <?php
 
 class Database {
-    private $conn;
-    private $statement;
+    private mysqli $conn;
+    private mysqli_stmt $statement;
 
     public function __construct($database, $hostname = "localhost", $username = "root", $password = "") {
         $this->conn = new mysqli($hostname, $username, $password, $database);
+    }
+
+    function __destruct() {
+        if (isset($this->statement)) {
+            $this->statement->close();
+        }
+        $this->conn->close();
     }
 
     public function getResult($query, $parameters = array()) {
@@ -33,12 +40,5 @@ class Database {
 
     public function checkAffectedRows($checkValue): bool {
         return $this->conn->affected_rows === $checkValue;
-    }
-
-    public function close() {
-        if (isset($this->statement)) {
-            $this->statement->close();
-        }
-        $this->conn->close();
     }
 }

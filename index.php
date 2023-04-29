@@ -31,13 +31,9 @@ if (!isset($_SESSION["user_id"])) {
         <div>
             <a href="index.php?page=userProfile&id=<?php echo $_SESSION["user_id"] ?>" class="account-link">
                 <?php
-                require_once "classes/Database.php";
-                $db = new Database("library_db");
-                $result = $db->getResult("SELECT first_name, last_name, is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
-                $user = $result->fetch_assoc();
-                $db->close();
-
-                echo "$user[first_name] $user[last_name]";
+                require_once "classes/User.php";
+                $user = new User($_SESSION["user_id"]);
+                echo "$user->firstName $user->lastName";
                 ?>
             </a>
             <a href="scripts/logout.php" class="log-out-link">log out</a>
@@ -51,7 +47,7 @@ if (!isset($_SESSION["user_id"])) {
                 <li><a href="index.php?page=authors">Authors</a></li>
                 <li><a href="index.php?page=categories">Categories</a></li>
                 <?php
-                if ($user["is_admin"]) {
+                if ($user->isAdmin) {
                     echo "<li><a href='index.php?page=users'>Users</a></li>";
                 }
                 ?>

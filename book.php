@@ -12,13 +12,11 @@ if (!isset($_SESSION["user_id"])) {
     exit();
 }
 
-require_once "classes/Database.php";
-$db = new Database("library_db");
-$result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
-$user = $result->fetch_assoc();
+require_once "classes/User.php";
+$user = new User($_SESSION["user_id"]);
 
 // if user doesn't have admin rights
-if (!$user["is_admin"]) {
+if (!$user->isAdmin) {
     header("location: index.php?page=books");
     exit();
 }
@@ -37,6 +35,9 @@ if (!$user["is_admin"]) {
 <body>
     <div class="wrapper">
         <?php
+        require_once "classes/Database.php";
+        $db = new Database("library_db");
+
         $updatedTitle = "";
         $updatedAuthorId = 0;
         $updatedCategoryId = 0;
@@ -66,13 +67,16 @@ if (!$user["is_admin"]) {
             <label for="author">Author</label>
             <select name="author_id" id="author">
                 <?php
-                $result = $db->getResult("SELECT id, first_name, last_name FROM authors");
+                require_once "classes/Author.php";
+                $result = $db->getResult("SELECT id FROM authors");
 
-                while ($author = $result->fetch_assoc()) {
-                    if ($author["id"] === $updatedAuthorId) {
-                        echo "<option selected value='$author[id]'>$author[first_name] $author[last_name]</option>";
+                while ($authorResult = $result->fetch_assoc()) {
+                    $author = new Author($authorResult["id"]);
+
+                    if ($author->id === $updatedAuthorId) {
+                        echo "<option selected value='$author->id'>$author->firstName $author->lastName</option>";
                     } else {
-                        echo "<option value='$author[id]'>$author[first_name] $author[last_name]</option>";
+                        echo "<option value='$author->id'>$author->firstName $author->lastName</option>";
                     }
                 }
                 ?>
@@ -91,8 +95,6 @@ if (!$user["is_admin"]) {
                         echo "<option value='$category[id]'>$category[category]</option>";
                     }
                 }
-
-                $db->close();
                 ?>
             </select>
         </div>

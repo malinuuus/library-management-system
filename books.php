@@ -9,12 +9,10 @@
         session_start();
     }
 
-    require_once "classes/Database.php";
-    $db = new Database("library_db");
-    $result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
-    $user = $result->fetch_assoc();
+    require_once "classes/User.php";
+    $user = new User($_SESSION["user_id"]);
 
-    if ($user["is_admin"]) {
+    if ($user->isAdmin) {
         echo "<a href='book.php?mode=add'>Add a book</a>";
     }
     ?>
@@ -29,48 +27,50 @@
         <th></th>
     </tr>
 <?php
-$query = "SELECT * FROM (SELECT b.id, b.title, b.image, a.id as author_id, a.first_name, a.last_name, c.category, COUNT(CASE is_available WHEN 1 THEN 1 ELSE NULL END) as num_copies
-          FROM books b
-          LEFT JOIN authors a on b.author_id = a.id
-          LEFT JOIN categories c on b.category_id = c.id
-          LEFT JOIN copies c2 on b.id = c2.book_id
-          GROUP BY b.id) AS t1 ORDER BY t1.title";
-$result = $db->getResult($query);
+require_once "classes/Book.php";
+require_once "classes/Database.php";
+require_once "classes/File.php";
 
-while ($book = $result->fetch_assoc()) {
-    require_once "scripts/files.php";
-    $imageData = getFile($book["image"], "images/blank_book.jpg");
+$db = new Database("library_db");
+$result = $db->getResult("SELECT id FROM books ORDER BY title");
+
+while ($bookResult = $result->fetch_assoc()) {
+    $book = new Book($bookResult["id"]);
+    $author = $book->get_author();
+    $category = $book->get_category();
+    $copiesCount = $book->get_available_copies_count();
+    $imageData = $book->image->get_file();
 
     echo <<< BOOKROW
         <tr class="book-row">
             <td class="book-row-img"><img src=$imageData alt="book cover"></td>
-            <td class="book-row-title">$book[title]</td>
-            <td class="book-row-author"><a href="index.php?page=authors&id=$book[author_id]">$book[first_name] $book[last_name]</a></td>
-            <td class="book-row-category">$book[category]</td>
-            <td class="book-row-copies">$book[num_copies]</td>
+            <td class="book-row-title">$book->title</td>
+            <td class="book-row-author"><a href="index.php?page=authors&id=$author->id">$author->firstName $author->lastName</a></td>
+            <td class="book-row-category">$category</td>
+            <td class="book-row-copies">$copiesCount</td>
     BOOKROW;
 
-    if ($user["is_admin"]) {
+    if ($user->isAdmin) {
         echo <<< DELETEFORM
                 <td class="book-row-buttons">
                     <form action="scripts/updatebook.php" method="post">
-                        <input type="hidden" name="book_id" value="$book[id]">
+                        <input type="hidden" name="book_id" value="$book->id">
                         <button type="submit" name="submit" value="1" class="btn update-btn">Update</button>
                     </form>
                     <form action="scripts/deletebook.php" method="post">
-                        <input type="hidden" name="book_id" value="$book[id]">
+                        <input type="hidden" name="book_id" value="$book->id">
                         <button type="submit" class="btn delete-btn">Delete</button>
                     </form>
                 </td>
             </tr>
         DELETEFORM;
-    } else if ($book["num_copies"] == 0) {
+    } else if ($copiesCount == 0) {
         echo "<td><button disabled class='btn reserve-btn'>Reserve</button></td></tr>";
     } else {
         echo <<< RESERVEFORM
                 <td>
                     <form action="scripts/reservebook.php" method="post">
-                        <input type="hidden" name="book_id" value="$book[id]">
+                        <input type="hidden" name="book_id" value="$book->id">
                         <button type="submit" class="btn active reserve-btn">Reserve</button>
                     </form>
                 </td>
@@ -78,8 +78,6 @@ while ($book = $result->fetch_assoc()) {
         RESERVEFORM;
     }
 }
-
-$db->close();
 ?>
 </table>
 <?php

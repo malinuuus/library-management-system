@@ -3,46 +3,42 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once "classes/Database.php";
-$db = new Database("library_db");
-$result = $db->getResult("SELECT is_admin FROM users WHERE id = ?", array($_SESSION["user_id"]));
-$loggedUser = $result->fetch_assoc();
-
-$result = $db->getResult("SELECT * FROM users WHERE id = ?", array($_GET["id"]));
-$user = $result->fetch_assoc();
+require_once "classes/User.php";
+$loggedUser = new User($_SESSION["user_id"]);
+$user = new User($_GET["id"]);
 
 // deny access to other profiles for users without admin rights
-if (empty($user) || ($_SESSION["user_id"] != $_GET["id"] && !$loggedUser["is_admin"])) {
+if (empty($user) || ($loggedUser->id != $user->id && !$loggedUser->isAdmin)) {
     header("location: index.php");
     exit();
 }
 
-if ($_SESSION["user_id"] == $_GET["id"]) {
+if ($loggedUser->id == $user->id) {
     echo "<h3>Your profile</h3>";
 } else {
-    echo "<h3>$user[first_name] $user[last_name]'s profile</h3>";
+    echo "<h3>$user->firstName $user->lastName's profile</h3>";
 }
 ?>
 <form action="scripts/updateuser.php" method="post">
-    <input type="hidden" name="user_id" value="<?php echo $_GET["id"] ?>">
+    <input type="hidden" name="user_id" value="<?php echo $user->id ?>">
     <div class="profile-info">
         <div>
             <label for="first-name">First name:</label>
-            <input type="text" name="first_name" id="first-name" value="<?php echo $user["first_name"] ?>" disabled>
+            <input type="text" name="first_name" id="first-name" value="<?php echo $user->firstName ?>" disabled>
         </div>
 
         <div>
             <label for="last-name">Last name:</label>
-            <input type="text" name="last_name" id="last-name" value="<?php echo $user["last_name"] ?>" disabled>
+            <input type="text" name="last_name" id="last-name" value="<?php echo $user->lastName ?>" disabled>
         </div>
 
         <div>
             <label for="email">Email:</label>
-            <input type="text" name="email" id="email" value="<?php echo $user["email"] ?>" disabled>
+            <input type="text" name="email" id="email" value="<?php echo $user->email ?>" disabled>
         </div>
         <?php
-        if ($loggedUser["is_admin"]) {
-            $isChecked = $user["is_admin"] ? "checked" : "";
+        if ($loggedUser->isAdmin) {
+            $isChecked = $user->isAdmin ? "checked" : "";
 
             echo <<< PASSWORDINPUT
                 <div>
