@@ -69,14 +69,23 @@ if (isset($_GET["id"])) {
 
     echo "<script src='js/updateAuthor.js'></script>";
 } else {
-    echo <<< AUTHORHEADER
-        <h3>Authors</h3>
+    ?>
+    <h3>Authors</h3>
+    <div class="authors-header header">
         <div class="search-bar">
             <label for="search-bar">🔍</label>
             <input type="text" id="search-bar" placeholder="Search...">
         </div>
-    AUTHORHEADER;
+        <?php
+        require_once "classes/User.php";
+        $user = new User($_SESSION["user_id"]);
 
+        if ($user->isAdmin) {
+            echo "<a href='author.php'>Add an author</a>";
+        }
+        ?>
+    </div>
+    <?php
     $result = $db->getResult("SELECT id FROM authors ORDER BY last_name AND first_name");
 
     while ($authorResult = $result->fetch_assoc()) {
