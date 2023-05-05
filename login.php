@@ -18,15 +18,13 @@
                 <input type="text" name="email" placeholder="Email">
                 <input type="password" name="password" placeholder="Password">
                 <button type="submit">Login</button>
-                <?php
-                session_start();
-                if (isset($_SESSION["err"])) {
-                    echo "<span>$_SESSION[err]</span>";
-                    unset($_SESSION["err"]);
-                }
-                ?>
             </form>
         </div>
     </div>
+    <?php
+    session_start();
+    require_once "modal.php";
+    ?>
+    <script src="js/closeModal.js"></script>
 </body>
 </html>

@@ -44,10 +44,7 @@ if (isset($_GET["id"])) {
             </div>
         AUTHORINFO;
 
-        if (isset($_SESSION["err"])) {
-            echo $_SESSION["err"];
-            unset($_SESSION["err"]);
-        }
+        require_once "modal.php";
     }
 
     echo "<h3>Books:</h3>";
@@ -104,10 +101,6 @@ if (isset($_GET["id"])) {
         AUTHOR;
     }
 
-    if (isset($_SESSION["err"])) {
-        echo $_SESSION["err"];
-        unset($_SESSION["err"]);
-    }
-
+    require_once "modal.php";
     echo "<script src='js/filterData.js'></script>";
 }

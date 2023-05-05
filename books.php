@@ -81,9 +81,6 @@ while ($bookResult = $result->fetch_assoc()) {
 ?>
 </table>
 <?php
-if (isset($_SESSION["err"])) {
-    echo "<p>$_SESSION[err]</p>";
-    unset($_SESSION["err"]);
-}
+require_once "modal.php";
 ?>
 <script src="js/filterData.js"></script>

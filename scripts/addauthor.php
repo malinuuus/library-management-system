@@ -29,7 +29,7 @@ if (!$file->upload_file("authors", $authorId, $message)) {
 }
 
 if ($db->checkAffectedRows(1)) {
-    $_SESSION["err"] = "New book has been successfully added!";
+    $_SESSION["err"] = "New author has been successfully added!";
 } else {
     $_SESSION["err"] = "Error!";
 }

@@ -111,14 +111,13 @@ if (!$user->isAdmin) {
         } else {
             echo "<button type='submit'>Add</button>";
         }
-
-        if (isset($_SESSION["err"])) {
-            echo "<span>$_SESSION[err]</span>";
-            unset($_SESSION["err"]);
-        }
         ?>
         <a href="index.php?page=books">Cancel</a>
         </form>
     </div>
+    <?php
+    require_once "modal.php";
+    ?>
+    <script src="js/closeModal.js"></script>
 </body>
 </html>

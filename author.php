@@ -44,15 +44,13 @@ if (!$user->isAdmin) {
                 <label for="image">Image: </label>
                 <input type="file" name="image" id="image" accept="image/*">
             </div>
-            <?php
-            if (isset($_SESSION["err"])) {
-                echo "<span>$_SESSION[err]</span>";
-                unset($_SESSION["err"]);
-            }
-            ?>
             <button type='submit'>Add</button>
             <a href="index.php?page=authors">Cancel</a>
         </form>
     </div>
+    <?php
+    require_once "modal.php";
+    ?>
+    <script src="js/closeModal.js"></script>
 </body>
 </html>

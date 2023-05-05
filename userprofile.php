@@ -65,9 +65,6 @@ if ($loggedUser->id == $user->id) {
     </div>
 </form>
 <?php
-if (isset($_SESSION["err"])) {
-    echo $_SESSION["err"];
-    unset($_SESSION["err"]);
-}
+require_once "modal.php";
 ?>
 <script src="js/editUser.js"></script>
