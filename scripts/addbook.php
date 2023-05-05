@@ -23,7 +23,7 @@ require_once "../classes/File.php";
 $file = new File($_FILES["image"]);
 
 // todo: deny adding a new book if there are issues with an image
-if (!$file->upload_file($bookId, $message)) {
+if (!$file->upload_file("books", $bookId, $message)) {
     $_SESSION["err"] = $message;
     echo "<script>history.back();</script>";
     exit();

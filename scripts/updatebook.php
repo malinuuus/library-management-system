@@ -28,7 +28,7 @@ if (isset($_POST["book_id"])) {
     require_once "../classes/File.php";
     $file = $book->image;
 
-    if (!$file->upload_file($_SESSION["updatingBookId"], $message, $_FILES["image"])) {
+    if (!$file->upload_file("books", $_SESSION["updatingBookId"], $message, $_FILES["image"])) {
         $_SESSION["err"] = $message;
         echo "<script>history.back();</script>";
         exit();
