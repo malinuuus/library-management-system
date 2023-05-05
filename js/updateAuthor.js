@@ -1,6 +1,7 @@
 const updateBtn = document.getElementById("update-author-btn");
 const authorBio = document.querySelector('.author-bio');
 const updateForm = document.getElementById('update-form');
+const imageContainer = document.querySelector('.author-image-container');
 
 const firstName = document.getElementById('author-first-name');
 const lastName = document.getElementById('author-last-name');
@@ -13,6 +14,11 @@ const firstNameInput = document.createElement('input');
 firstNameInput.value = firstName.innerText;
 const lastNameInput = document.createElement('input');
 lastNameInput.value = lastName.innerText;
+
+const fileInput = document.createElement('input');
+fileInput.setAttribute('type', 'file');
+fileInput.setAttribute('name', 'image');
+fileInput.setAttribute('accept', 'image/*');
 
 function createHiddenInput(name, input) {
     const hiddenInput = document.createElement('input');
@@ -37,6 +43,8 @@ updateBtn.addEventListener('click', () => {
 
         firstName.replaceWith(firstNameInput);
         lastName.replaceWith(lastNameInput);
+
+        updateForm.appendChild(fileInput);
 
         createHiddenInput('description', textArea);
         createHiddenInput('first_name', firstNameInput);

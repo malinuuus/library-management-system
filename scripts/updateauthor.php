@@ -10,12 +10,22 @@ foreach ($_POST as $key => $value) {
 }
 
 require_once "../classes/Author.php";
-$isUpdated = (new Author($_POST["author_id"]))->update($_POST["first_name"], $_POST["last_name"], $_POST["description"]);
+$author = new Author($_POST["author_id"]);
+$isUpdated = $author->update($_POST["first_name"], $_POST["last_name"], $_POST["description"]);
 
 if ($isUpdated) {
     $_SESSION["err"] = "Author has been successfully updated";
 } else {
     $_SESSION["err"] = "Author hasn't been updated!";
+}
+
+require_once "../classes/File.php";
+$file = $author->image;
+
+if (!$file->upload_file("authors", $_POST["author_id"], $message, $_FILES["image"])) {
+    $_SESSION["err"] = $message;
+    echo "<script>history.back();</script>";
+    exit();
 }
 
 header("location: ../index.php?page=authors&id=$_POST[author_id]");

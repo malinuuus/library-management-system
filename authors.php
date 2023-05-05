@@ -37,7 +37,7 @@ if (isset($_GET["id"])) {
                     <input type="hidden" name="author_id" value="$author->id">
                     <button type="submit">Delete author</button>
                 </form>
-                <form action="scripts/updateauthor.php" method="post" id="update-form" onsubmit="return false">
+                <form action="scripts/updateauthor.php" method="post" id="update-form" enctype="multipart/form-data" onsubmit="return false">
                     <input type="hidden" name="author_id" value="$author->id">
                     <button type="button" id="update-author-btn">Edit author</button>
                 </form>
