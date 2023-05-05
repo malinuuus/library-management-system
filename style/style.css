@@ -63,3 +63,36 @@ h3 {
 .header a:hover {
     color: #dcdcdc;
 }
+
+/* modal pop-up */
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    margin: 20px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px 40px;
+    border: 1px solid var(--text-color);
+    width: 80%;
+    position: relative;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.modal .close {
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 0 10px 0 10px;
+}
+
+.modal .close:hover {
+    background: #ffbdbd;
+}
