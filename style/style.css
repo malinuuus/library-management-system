@@ -45,3 +45,21 @@ h3 {
 .table tr:nth-child(even) {
     background: #f2f2f2;
 }
+
+/* div with search bar and add an item button */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header a {
+    background: var(--bg-gradient);
+    color: #fff;
+    padding: 5px 20px;
+    border-radius: 15px;
+}
+
+.header a:hover {
+    color: #dcdcdc;
+}

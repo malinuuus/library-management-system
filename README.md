@@ -17,7 +17,7 @@ An admin can perform the following tasks:
 * View the list of all borrowed books and their due dates.
 * Mark a borrowed book as returned.
 * Add, edit and delete books.
-* Add (soon), edit and delete authors.
+* Add, edit and delete authors.
 * View the users list.
 * Edit users' and admins' data on their profile pages.
 

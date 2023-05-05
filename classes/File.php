@@ -9,7 +9,7 @@ class File {
         $this->filePlaceholder = $filePlaceholder;
     }
 
-    public function upload_file($bookId, &$message, $file = ""): bool {
+    public function upload_file($table, $id, &$message, $file = ""): bool {
         if (empty($file)) {
             $file = $this->file;
         }
@@ -34,7 +34,7 @@ class File {
 
         require_once "../classes/Database.php";
         $db = new Database("library_db");
-        $db->getResult("UPDATE books SET image = ? WHERE id = ?", array($imageData, $bookId));
+        $db->getResult("UPDATE $table SET image = ? WHERE id = ?", array($imageData, $id));
 
         if (!$db->checkAffectedRows(1)) {
             $message = "Error occurred while uploading an image!";

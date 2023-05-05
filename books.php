@@ -1,5 +1,5 @@
 <h3>Books</h3>
-<div class="books-header">
+<div class="books-header header">
     <div class="search-bar">
         <label class="search-bar-label" for="search-bar">🔍</label>
         <input type="text" id="search-bar" placeholder="Search...">
