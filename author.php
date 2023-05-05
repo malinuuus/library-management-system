@@ -30,15 +30,12 @@ if (!$user->isAdmin) {
 <body>
     <div class="wrapper">
         <h3>Add an author to the database</h3>
-        <form action='' method='post' enctype='multipart/form-data'>
+        <form action='scripts/addauthor.php' method='post' enctype='multipart/form-data'>
             <div>
                 <input type='text' name='first_name' placeholder='First name'>
             </div>
             <div>
                 <input type='text' name='last_name' placeholder='Last name'>
-            </div>
-            <div>
-                <input type='text' name='first_name' placeholder='First name'>
             </div>
             <div>
                 <textarea name="description" placeholder="Description" class="textarea-bio" style="padding: 5px; font-size: 14px"></textarea>
@@ -47,6 +44,12 @@ if (!$user->isAdmin) {
                 <label for="image">Image: </label>
                 <input type="file" name="image" id="image" accept="image/*">
             </div>
+            <?php
+            if (isset($_SESSION["err"])) {
+                echo "<span>$_SESSION[err]</span>";
+                unset($_SESSION["err"]);
+            }
+            ?>
             <button type='submit'>Add</button>
             <a href="index.php?page=authors">Cancel</a>
         </form>
