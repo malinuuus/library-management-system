@@ -15,9 +15,14 @@ firstNameInput.value = firstName.innerText;
 const lastNameInput = document.createElement('input');
 lastNameInput.value = lastName.innerText;
 
+const fileLabel = document.createElement('label');
+fileLabel.setAttribute('for', 'image');
+fileLabel.innerText = 'New image: ';
+
 const fileInput = document.createElement('input');
 fileInput.setAttribute('type', 'file');
 fileInput.setAttribute('name', 'image');
+fileInput.setAttribute('id', 'image');
 fileInput.setAttribute('accept', 'image/*');
 
 function createHiddenInput(name, input) {
@@ -44,6 +49,7 @@ updateBtn.addEventListener('click', () => {
         firstName.replaceWith(firstNameInput);
         lastName.replaceWith(lastNameInput);
 
+        updateForm.appendChild(fileLabel);
         updateForm.appendChild(fileInput);
 
         createHiddenInput('description', textArea);
