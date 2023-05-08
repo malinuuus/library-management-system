@@ -23,7 +23,7 @@
     </div>
     <?php
     session_start();
-    require_once "modal.php";
+    require_once "notificationmodal.php";
     ?>
     <script src="js/closeModal.js"></script>
 </body>

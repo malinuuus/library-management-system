@@ -65,6 +65,6 @@ if ($loggedUser->id == $user->id) {
     </div>
 </form>
 <?php
-require_once "modal.php";
+require_once "notificationmodal.php";
 ?>
 <script src="js/editUser.js"></script>

@@ -81,6 +81,6 @@ while ($bookResult = $result->fetch_assoc()) {
 ?>
 </table>
 <?php
-require_once "modal.php";
+require_once "notificationmodal.php";
 ?>
 <script src="js/filterData.js"></script>

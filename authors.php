@@ -101,6 +101,6 @@ if (isset($_GET["id"])) {
         AUTHOR;
     }
 
-    require_once "modal.php";
+    require_once "notificationmodal.php";
     echo "<script src='js/filterData.js'></script>";
 }

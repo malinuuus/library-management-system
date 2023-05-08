@@ -116,7 +116,7 @@ if (!$user->isAdmin) {
         </form>
     </div>
     <?php
-    require_once "modal.php";
+    require_once "notificationmodal.php";
     ?>
     <script src="js/closeModal.js"></script>
 </body>
