@@ -2,9 +2,17 @@ const modal = document.querySelector('.modal');
 const closeBtn = document.querySelector('.close');
 
 setTimeout(() => {
-    modal.style.display = "none";
+    closeModal();
 }, 5000);
 
 closeBtn.addEventListener('click', () => {
-    modal.style.display = "none";
+    closeModal();
 })
+
+function closeModal() {
+    modal.style.opacity = '0';
+
+    setTimeout(() => {
+        modal.remove();
+    }, 500);
+}

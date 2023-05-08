@@ -71,6 +71,19 @@ h3 {
     left: 0;
     top: 0;
     margin: 20px;
+    animation: .5s popup;
+    transition: opacity .5s linear;
+}
+
+@keyframes popup {
+    0% {
+        transform: translateY(-50%);
+        opacity: .5;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .modal-content {
