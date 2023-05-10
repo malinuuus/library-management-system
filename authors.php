@@ -33,10 +33,7 @@ if (isset($_GET["id"])) {
     if ($user->isAdmin) {
         echo <<< AUTHORINFO
             <div class="author-buttons">
-                <form action="scripts/deleteauthor.php" method="post">
-                    <input type="hidden" name="author_id" value="$author->id">
-                    <button type="submit">Delete author</button>
-                </form>
+                <button id="delete-btn">Delete author</button>
                 <form action="scripts/updateauthor.php" method="post" id="update-form" enctype="multipart/form-data" onsubmit="return false">
                     <input type="hidden" name="author_id" value="$author->id">
                     <button type="button" id="update-author-btn">Edit author</button>
@@ -45,6 +42,8 @@ if (isset($_GET["id"])) {
         AUTHORINFO;
 
         require_once "modal.php";
+        showModal($author->id);
+        require_once "notificationmodal.php";
     }
 
     echo "<h3>Books:</h3>";
@@ -65,6 +64,7 @@ if (isset($_GET["id"])) {
     }
 
     echo "<script src='js/updateAuthor.js'></script>";
+    echo "<script src='js/modal.js'></script>";
 } else {
     ?>
     <h3>Authors</h3>
