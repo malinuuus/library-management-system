@@ -31,18 +31,19 @@ if (isset($_GET["id"])) {
     $user = new User($_SESSION["user_id"]);
 
     if ($user->isAdmin) {
+        require_once "modal.php";
+
         echo <<< AUTHORINFO
             <div class="author-buttons">
-                <button id="delete-btn">Delete author</button>
                 <form action="scripts/updateauthor.php" method="post" id="update-form" enctype="multipart/form-data" onsubmit="return false">
                     <input type="hidden" name="author_id" value="$author->id">
                     <button type="button" id="update-author-btn">Edit author</button>
                 </form>
-            </div>
+                <button class="delete-btn">Delete author</button>
         AUTHORINFO;
 
-        require_once "modal.php";
-        showModal($author->id);
+        showModal("author", $author->id);
+        echo "</div>";
         require_once "notificationmodal.php";
     }
 

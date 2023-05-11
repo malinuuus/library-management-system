@@ -1,13 +1,18 @@
 const deleteModal = document.querySelector('.delete-modal');
-deleteModal.classList.add('hide');
+const deleteButtons = document.querySelectorAll('.delete-btn');
+const cancelButtons = document.querySelectorAll('.modal-cancel');
 
-const deleteBtn = document.getElementById('delete-btn');
-const cancelBtn = document.querySelector('.modal-cancel');
+let currentModal;
 
-deleteBtn.addEventListener('click', () => {
-    deleteModal.classList.remove('hide');
+deleteButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        currentModal = btn.nextElementSibling;
+        currentModal.classList.remove('hide');
+    })
 })
 
-cancelBtn.addEventListener('click', () => {
-    deleteModal.classList.add('hide');
+cancelButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        currentModal.classList.add('hide');
+    })
 })

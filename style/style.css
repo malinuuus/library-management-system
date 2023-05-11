@@ -137,6 +137,25 @@ h3 {
     border-radius: 10px;
 }
 
-.modal-options span {
+.modal-options {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.modal-options button {
+    background: none;
+    border: none;
     cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.modal-cancel:hover {
+    background: #ffb1b1;
+}
+
+.modal-accept:hover {
+    background: #bfffb1;
 }
