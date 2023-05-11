@@ -31,23 +31,20 @@ if (isset($_GET["id"])) {
     $user = new User($_SESSION["user_id"]);
 
     if ($user->isAdmin) {
+        require_once "modal.php";
+
         echo <<< AUTHORINFO
             <div class="author-buttons">
-                <form action="scripts/deleteauthor.php" method="post">
-                    <input type="hidden" name="author_id" value="$author->id">
-                    <button type="submit">Delete author</button>
-                </form>
                 <form action="scripts/updateauthor.php" method="post" id="update-form" enctype="multipart/form-data" onsubmit="return false">
                     <input type="hidden" name="author_id" value="$author->id">
                     <button type="button" id="update-author-btn">Edit author</button>
                 </form>
-            </div>
+                <button class="delete-btn">Delete author</button>
         AUTHORINFO;
 
-        if (isset($_SESSION["err"])) {
-            echo $_SESSION["err"];
-            unset($_SESSION["err"]);
-        }
+        showModal("author", $author->id);
+        echo "</div>";
+        require_once "notificationmodal.php";
     }
 
     echo "<h3>Books:</h3>";
@@ -68,6 +65,7 @@ if (isset($_GET["id"])) {
     }
 
     echo "<script src='js/updateAuthor.js'></script>";
+    echo "<script src='js/modal.js'></script>";
 } else {
     ?>
     <h3>Authors</h3>
@@ -104,10 +102,6 @@ if (isset($_GET["id"])) {
         AUTHOR;
     }
 
-    if (isset($_SESSION["err"])) {
-        echo $_SESSION["err"];
-        unset($_SESSION["err"]);
-    }
-
+    require_once "notificationmodal.php";
     echo "<script src='js/filterData.js'></script>";
 }

@@ -51,19 +51,17 @@ while ($bookResult = $result->fetch_assoc()) {
     BOOKROW;
 
     if ($user->isAdmin) {
+        require_once "modal.php";
         echo <<< DELETEFORM
                 <td class="book-row-buttons">
                     <form action="scripts/updatebook.php" method="post">
                         <input type="hidden" name="book_id" value="$book->id">
                         <button type="submit" name="submit" value="1" class="btn update-btn">Update</button>
                     </form>
-                    <form action="scripts/deletebook.php" method="post">
-                        <input type="hidden" name="book_id" value="$book->id">
-                        <button type="submit" class="btn delete-btn">Delete</button>
-                    </form>
-                </td>
-            </tr>
+                    <button class="btn delete-btn">Delete</button>
         DELETEFORM;
+        showModal("book", $book->id);
+        echo "</td></tr>";
     } else if ($copiesCount == 0) {
         echo "<td><button disabled class='btn reserve-btn'>Reserve</button></td></tr>";
     } else {
@@ -81,9 +79,7 @@ while ($bookResult = $result->fetch_assoc()) {
 ?>
 </table>
 <?php
-if (isset($_SESSION["err"])) {
-    echo "<p>$_SESSION[err]</p>";
-    unset($_SESSION["err"]);
-}
+require_once "notificationmodal.php";
 ?>
 <script src="js/filterData.js"></script>
+<script src="js/modal.js"></script>

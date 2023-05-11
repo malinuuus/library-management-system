@@ -63,3 +63,99 @@ h3 {
 .header a:hover {
     color: #dcdcdc;
 }
+
+/* modal pop-up */
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    margin: 20px;
+    animation: .5s popup;
+    transition: opacity .5s linear;
+}
+
+@keyframes popup {
+    0% {
+        transform: translateY(-50%);
+        opacity: .5;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px 40px;
+    border: 1px solid var(--text-color);
+    width: 80%;
+    position: relative;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.modal .close {
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 0 10px 0 10px;
+}
+
+.modal .close:hover {
+    background: #ffbdbd;
+}
+
+.delete-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.delete-modal.hide {
+    display: none;
+}
+
+.delete-modal-content {
+    background-color: #fefefe;
+    padding: 20px 40px;
+    border: 1px solid var(--text-color);
+    width: 80%;
+    position: relative;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.modal-options {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.modal-options button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.modal-cancel:hover {
+    background: #ffb1b1;
+}
+
+.modal-accept:hover {
+    background: #bfffb1;
+}

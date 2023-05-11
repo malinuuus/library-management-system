@@ -74,5 +74,6 @@ if (!isset($_SESSION["user_id"])) {
             ?>
         </div>
     </div>
+    <script src="js/closeModal.js"></script>
 </body>
 </html>
