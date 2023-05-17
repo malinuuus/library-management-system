@@ -18,7 +18,7 @@ if (!isset($_SESSION["user_id"])) {
     <link rel="stylesheet" href="style/books.css">
     <link rel="stylesheet" href="style/userprofile.css">
     <link rel="stylesheet" href="style/authors.css">
-    <link rel="stylesheet" href="style/category.css">
+    <link rel="stylesheet" href="style/categories.css">
     <link rel="stylesheet" href="style/userslist.css">
     <title>
         <?php

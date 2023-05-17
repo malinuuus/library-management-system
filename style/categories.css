@@ -10,3 +10,15 @@
     margin: 10px 10px 10px 0;
     border-radius: 10px;
 }
+
+.category-delete {
+    display: inline;
+    margin-left: 8px;
+}
+
+.category-delete button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+}

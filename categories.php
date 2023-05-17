@@ -18,16 +18,22 @@
     <?php
     require_once "classes/Database.php";
     $db = new Database("library_db");
-    $result = $db->getResult("SELECT category FROM categories ORDER BY category");
+    $result = $db->getResult("SELECT * FROM categories ORDER BY category");
 
     while ($category = $result->fetch_assoc()) {
         $link = urlencode($category["category"]);
+        echo "<a href='index.php?page=books&category=$link' class='category'><span>$category[category]</span>";
 
-        echo <<< CATEGORY
-            <a href="index.php?page=books&category=$link" class="category">
-                <p>$category[category]</p>
-            </a>
-        CATEGORY;
+        if ($user->isAdmin) {
+            echo <<< DELETECATEGORY
+                <form action="scripts/deletecategory.php" method="post" class="category-delete">
+                    <input type="hidden" name="category_id" value="$category[id]">
+                    <button type="submit">⛔</button>
+                </form>
+            DELETECATEGORY;
+        }
+
+        echo "</a>";
     }
     ?>
 </div>
