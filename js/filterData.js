@@ -20,6 +20,8 @@ function filterRows(nodeList, tagName, filterColumns) {
     })
 }
 
+filterRows(booksArray, 'td', ['title', 'author', 'category']);
+
 searchBar.addEventListener('keyup', () => {
     if (booksArray.length !== 0) {
         filterRows(booksArray, 'td', ['title', 'author', 'category']);

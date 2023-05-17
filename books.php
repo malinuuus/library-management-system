@@ -1,8 +1,12 @@
+<?php
+// if $_GET["category"] is null assign ""
+$searchValue = $_GET["category"] ?? "";
+?>
 <h3>Books</h3>
 <div class="books-header header">
     <div class="search-bar">
         <label class="search-bar-label" for="search-bar">🔍</label>
-        <input type="text" id="search-bar" placeholder="Search...">
+        <input type="text" id="search-bar" value="<?php echo $searchValue; ?>" placeholder="Search...">
     </div>
     <?php
     if (session_status() === PHP_SESSION_NONE) {
