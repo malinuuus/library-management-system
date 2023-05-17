@@ -1,5 +1,19 @@
 <h3>Categories</h3>
-<p>Click to see books in this category</p>
+<div class="header">
+    <span>Click to see books in this category</span>
+    <?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    require_once "classes/User.php";
+    $user = new User($_SESSION["user_id"]);
+
+    if ($user->isAdmin) {
+        echo "<a href='category.php'>Add a category</a>";
+    }
+    ?>
+</div>
 <div class="categories">
     <?php
     require_once "classes/Database.php";
@@ -17,3 +31,7 @@
     }
     ?>
 </div>
+<?php
+require_once "notificationmodal.php";
+?>
+<script src="js/closeModal.js"></script>
