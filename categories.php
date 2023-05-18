@@ -30,6 +30,10 @@
                     <input type="hidden" name="category_id" value="$category[id]">
                     <button type="submit">⛔</button>
                 </form>
+                <form action="category.php" method="post" class="category-update">
+                    <input type="hidden" name="category_id" value="$category[id]">
+                    <button type="submit">edit</button>
+                </form>
             DELETECATEGORY;
         }
 

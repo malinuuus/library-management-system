@@ -11,14 +11,17 @@
     border-radius: 10px;
 }
 
-.category-delete {
+.category-delete,
+.category-update {
     display: inline;
     margin-left: 8px;
 }
 
-.category-delete button {
+.category-delete button,
+.category-update button {
     background: none;
     border: none;
     cursor: pointer;
     font-size: inherit;
+    color: inherit;
 }

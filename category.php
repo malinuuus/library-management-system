@@ -15,6 +15,16 @@ if (!$user->isAdmin) {
     header("location: index.php?page=categories");
     exit();
 }
+
+if (isset($_POST["category_id"])) {
+    require_once "classes/Database.php";
+    $db = new Database("library_db");
+    $result = $db->getResult("SELECT * FROM categories WHERE id = ?", [$_POST["category_id"]]);
+    $category = $result->fetch_assoc();
+    $updatingMode = true;
+} else {
+    $updatingMode = false;
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -29,14 +39,32 @@ if (!$user->isAdmin) {
 </head>
 <body>
 <div class="wrapper">
-    <h3>Add a category to the database</h3>
-    <form action='scripts/addcategory.php' method='post'>
-        <div>
-            <input type='text' name='category' placeholder='Category name'>
-        </div>
-        <button type='submit'>Add</button>
-        <a href="index.php?page=categories">Cancel</a>
-    </form>
+    <?php
+    if ($updatingMode) {
+        echo <<< UPDATEFORM
+            <h3>Update a category</h3>
+            <form action='scripts/updatecategory.php' method='post'>
+                <div>
+                    <input type='text' name='category' placeholder='Category name' value="$category[category]">
+                </div>
+                <input type="hidden" name="category_id" value="$category[id]">
+                <button type='submit'>Update</button>
+                <a href="index.php?page=categories">Cancel</a>
+            </form>
+        UPDATEFORM;
+    } else {
+        echo <<< ADDFORM
+            <h3>Add a category to the database</h3>
+            <form action='scripts/addcategory.php' method='post'>
+                <div>
+                    <input type='text' name='category' placeholder='Category name'>
+                </div>
+                <button type='submit'>Add</button>
+                <a href="index.php?page=categories">Cancel</a>
+            </form>
+        ADDFORM;
+    }
+    ?>
 </div>
 <?php
 require_once "notificationmodal.php";
