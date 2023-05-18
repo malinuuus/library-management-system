@@ -1,0 +1,27 @@
+.categories {
+    margin-top: 20px;
+}
+
+.category {
+    display: inline-block;
+    background: var(--bg-gradient);
+    color: #fff;
+    padding: 5px 10px;
+    margin: 10px 10px 10px 0;
+    border-radius: 10px;
+}
+
+.category-delete,
+.category-update {
+    display: inline;
+    margin-left: 8px;
+}
+
+.category-delete button,
+.category-update button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    color: inherit;
+}
