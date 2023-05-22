@@ -1,6 +1,5 @@
 <h3>Categories</h3>
 <div class="header">
-    <span>Click to see books in this category</span>
     <?php
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
@@ -22,7 +21,7 @@
 
     while ($category = $result->fetch_assoc()) {
         $link = urlencode($category["category"]);
-        echo "<a href='index.php?page=books&category=$link' class='category'><span>$category[category]</span>";
+        echo "<div class='category'><span>$category[category]</span>";
 
         if ($user->isAdmin) {
             echo <<< DELETECATEGORY
@@ -37,7 +36,7 @@
             DELETECATEGORY;
         }
 
-        echo "</a>";
+        echo "</div>";
     }
     ?>
 </div>
