@@ -35,3 +35,9 @@
 .btn.active:hover {
     color: var(--text-color);
 }
+
+.load-btn button {
+    display: block;
+    width: 100%;
+    padding: 20px 0;
+}

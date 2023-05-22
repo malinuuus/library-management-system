@@ -1,7 +1,13 @@
 const searchBar = document.getElementById('search-bar');
-const booksArray = document.querySelectorAll('.book-row');
-const authorsArray = document.querySelectorAll('.author-info');
-const usersArray = document.querySelectorAll('.user-info');
+let booksArray, authorsArray, usersArray;
+
+function loadElements() {
+    booksArray = document.querySelectorAll('.book-row');
+    authorsArray = document.querySelectorAll('.author-info');
+    usersArray = document.querySelectorAll('.user-info');
+}
+
+loadElements();
 
 function filterRows(nodeList, tagName, filterColumns) {
     nodeList.forEach(item => {

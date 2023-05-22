@@ -30,60 +30,36 @@ $searchValue = $_GET["category"] ?? "";
         <th>No. of available copies</th>
         <th></th>
     </tr>
-<?php
-require_once "classes/Book.php";
-require_once "classes/Database.php";
-require_once "classes/File.php";
-
-$db = new Database("library_db");
-$result = $db->getResult("SELECT id FROM books ORDER BY title");
-
-while ($bookResult = $result->fetch_assoc()) {
-    $book = new Book($bookResult["id"]);
-    $author = $book->get_author();
-    $category = $book->get_category();
-    $copiesCount = $book->get_available_copies_count();
-    $imageData = $book->image->get_file();
-
-    echo <<< BOOKROW
-        <tr class="book-row">
-            <td class="book-row-img"><img src=$imageData alt="book cover"></td>
-            <td class="book-row-title">$book->title</td>
-            <td class="book-row-author"><a href="index.php?page=authors&id=$author->id">$author->firstName $author->lastName</a></td>
-            <td class="book-row-category">$category</td>
-            <td class="book-row-copies">$copiesCount</td>
-    BOOKROW;
-
-    if ($user->isAdmin) {
-        require_once "modal.php";
-        echo <<< DELETEFORM
-                <td class="book-row-buttons">
-                    <form action="scripts/updatebook.php" method="post">
-                        <input type="hidden" name="book_id" value="$book->id">
-                        <button type="submit" name="submit" value="1" class="btn update-btn">Update</button>
-                    </form>
-                    <button class="btn delete-btn">Delete</button>
-        DELETEFORM;
-        showModal("book", $book->id);
-        echo "</td></tr>";
-    } else if ($copiesCount == 0) {
-        echo "<td><button disabled class='btn reserve-btn'>Reserve</button></td></tr>";
-    } else {
-        echo <<< RESERVEFORM
-                <td>
-                    <form action="scripts/reservebook.php" method="post">
-                        <input type="hidden" name="book_id" value="$book->id">
-                        <button type="submit" class="btn active reserve-btn">Reserve</button>
-                    </form>
-                </td>
-            </tr>
-        RESERVEFORM;
-    }
-}
-?>
 </table>
+<div class="load-btn">
+    <button id="load-books" class="btn active">Load more books</button>
+</div>
 <?php
 require_once "notificationmodal.php";
 ?>
 <script src="js/filterData.js"></script>
 <script src="js/modal.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function loadBooks(booksOffset) {
+        removeModalListeners();
+
+        $.post('scripts/load_books.php', {
+            booksOffset: booksOffset
+        }, (data) => {
+            $('.books-table').append(data);
+            loadElements();
+            addModalListeners();
+        });
+    }
+
+    $(document).ready(() => {
+        let booksOffset = 0;
+        loadBooks(booksOffset);
+
+        $('#load-books').click(() => {
+            booksOffset += 4;
+            loadBooks(booksOffset);
+        });
+    });
+</script>
