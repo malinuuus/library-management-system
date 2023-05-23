@@ -11,7 +11,7 @@ A user can perform the following tasks:
 * Browse books by title, author and category.
 * Reserve a book for borrowing.
 * Browse authors and view their description and list of books.
-* Browse categories.
+* Browse categories and view books in a selected category.
 * View their profile and edit a name and an email address.
 
 An admin can perform the following tasks:
