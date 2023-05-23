@@ -22,7 +22,7 @@ $searchValue = $_GET["category"] ?? "";
     ?>
 </div>
 <table class="table books-table">
-    <tr>
+    <tr class="table-header">
         <th></th>
         <th>title</th>
         <th>author</th>
@@ -41,14 +41,21 @@ require_once "notificationmodal.php";
 <script src="js/modal.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    function loadBooks(booksOffset) {
-        removeModalListeners();
+    const booksCount = 6;
+    const tableHeader = $('.books-table .table-header');
 
+    function loadBooks(booksOffset, isSearching = false) {
         $.post('scripts/load_books.php', {
-            booksOffset: booksOffset
+            booksOffset: booksOffset,
+            booksCount: booksCount,
+            searchValue: $('#search-bar').val()
         }, (data) => {
-            $('.books-table').append(data);
-            loadElements();
+            if (isSearching) {
+                $('.books-table').empty().append([tableHeader, data]);
+            } else {
+                removeModalListeners();
+                $('.books-table').append(data);
+            }
             addModalListeners();
         });
     }
@@ -58,8 +65,12 @@ require_once "notificationmodal.php";
         loadBooks(booksOffset);
 
         $('#load-books').click(() => {
-            booksOffset += 4;
+            booksOffset += booksCount;
             loadBooks(booksOffset);
+        });
+
+        $('#search-bar').keyup(() => {
+            loadBooks(booksOffset, true)
         });
     });
 </script>

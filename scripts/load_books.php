@@ -1,16 +1,20 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     session_start();
-    $booksOffset = $_POST["booksOffset"];
 
     require_once "../classes/Database.php";
     require_once "../classes/Book.php";
     require_once "../classes/User.php";
 
     $user = new User($_SESSION["user_id"]);
-
     $db = new Database("library_db");
-    $result = $db->getResult("SELECT * FROM books ORDER BY title LIMIT 4 OFFSET ?", [$booksOffset]);
+
+    $searchValue = '%'.$_POST["searchValue"].'%';
+
+    $result = $db->getResult(
+        "SELECT b.id FROM books b INNER JOIN authors a ON b.author_id = a.id INNER JOIN categories c ON b.category_id = c.id WHERE b.title LIKE ? OR CONCAT(a.first_name, ' ', a.last_name) LIKE ? OR c.category LIKE ? ORDER BY b.title LIMIT ? OFFSET ?",
+        [$searchValue, $searchValue, $searchValue, $_POST["booksCount"], $_POST["booksOffset"]]
+    );
 
     while ($row = $result->fetch_assoc()) {
         $book = new Book($row["id"]);

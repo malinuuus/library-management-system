@@ -1,13 +1,6 @@
 const searchBar = document.getElementById('search-bar');
-let booksArray, authorsArray, usersArray;
-
-function loadElements() {
-    booksArray = document.querySelectorAll('.book-row');
-    authorsArray = document.querySelectorAll('.author-info');
-    usersArray = document.querySelectorAll('.user-info');
-}
-
-loadElements();
+authorsArray = document.querySelectorAll('.author-info');
+usersArray = document.querySelectorAll('.user-info');
 
 function filterRows(nodeList, tagName, filterColumns) {
     nodeList.forEach(item => {
@@ -26,12 +19,8 @@ function filterRows(nodeList, tagName, filterColumns) {
     })
 }
 
-filterRows(booksArray, 'td', ['title', 'author', 'category']);
-
 searchBar.addEventListener('keyup', () => {
-    if (booksArray.length !== 0) {
-        filterRows(booksArray, 'td', ['title', 'author', 'category']);
-    } else if (authorsArray.length !== 0) {
+    if (authorsArray.length !== 0) {
         filterRows(authorsArray, 'h4', ['name']);
     } else if (usersArray.length !== 0) {
         filterRows(usersArray, 'td', ['first-name', 'last-name'])
