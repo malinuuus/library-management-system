@@ -1,18 +1,35 @@
 const deleteModal = document.querySelector('.delete-modal');
-const deleteButtons = document.querySelectorAll('.delete-btn');
-const cancelButtons = document.querySelectorAll('.modal-cancel');
+let deleteButtons, cancelButtons;
 
+addModalListeners();
 let currentModal;
 
-deleteButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        currentModal = btn.nextElementSibling;
-        currentModal.classList.remove('hide');
-    })
-})
+function addModalListeners() {
+    deleteButtons = document.querySelectorAll('.delete-btn');
+    cancelButtons = document.querySelectorAll('.modal-cancel');
 
-cancelButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        currentModal.classList.add('hide');
-    })
-})
+    deleteButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            currentModal = btn.nextElementSibling;
+            currentModal.classList.remove('hide');
+        });
+    });
+
+    cancelButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            currentModal.classList.add('hide');
+        });
+    });
+}
+
+function removeModalListeners() {
+    deleteButtons.forEach(btn => {
+        let newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+    });
+
+    cancelButtons.forEach(btn => {
+        let newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+    });
+}
